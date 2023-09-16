@@ -228,7 +228,7 @@ Blockly.Python["control_servo"] = function (block) {
   var dropdown_pin = block.getFieldValue('pin');
   var servo_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = "moveGripper(" + dropdown_pin + ", " + angle_servo + ", " + servo_speed+")\n";
+  var code = "set_servo_position(" + dropdown_pin + ", " + angle_servo + ", " + servo_speed+")\n";
   return code;
 };
 
