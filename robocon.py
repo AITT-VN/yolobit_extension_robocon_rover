@@ -10,6 +10,7 @@ speed_factors = [
 m_dir = -1 #no found
 i_lr = 0 #0 for left, 1 for right
 t_finding_point = time.time_ns()
+current_position = 90
 
 def follow_line(speed):
     global m_dir, i_lr, t_finding_point
@@ -146,3 +147,29 @@ def turn_until_condition(m1_speed, m2_speed, condition, timeout=5000):
 
     rover.stop()
     time.sleep_ms(1000)
+
+
+def set_servo_position(pin, next_position , speed=80):
+    global current_position 
+    sleep = translate(speed, 0, 100, 50, 0.1)
+
+    if speed == 0:
+        return
+    
+    if next_position < 0:
+        next_position = 0
+
+    if next_position > 90:
+        next_position = 90
+        
+    if next_position < current_position:
+        for i in range(current_position, next_position, -1):
+            rover.servo_write(pin, i)
+            time.sleep_ms(int(sleep))
+    else:
+        for i in range(current_position, next_position):
+            rover.servo_write(pin, i)
+            time.sleep_ms(int(sleep))
+
+    current_position = next_position
+
