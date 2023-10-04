@@ -148,6 +148,21 @@ def turn_until_condition(m1_speed, m2_speed, condition, timeout=5000):
     rover.stop()
     time.sleep_ms(1000)
 
+def ball_launcher(index_1=0, index_2=1, mode=-1):
+    servo_1 = index_1 + 1
+    servo_2 = index_2 + 1
+    if mode == 1:
+        rover.servo_write(servo_1, 90)
+    if mode == 0:
+        rover.servo_write(servo_1, 90)
+        time.sleep_ms(250)
+        rover.servo_write(servo_2, 180)
+        time.sleep_ms(250)
+        rover.servo_write(servo_1, 0)
+        time.sleep_ms(250)
+        rover.servo_write(servo_2, 0)
+        time.sleep_ms(250)
+
 
 def set_servo_position(pin, next_position , speed=80):
     global current_position 
