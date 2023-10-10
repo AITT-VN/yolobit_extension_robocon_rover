@@ -14,8 +14,8 @@ current_position = 90
 
 def follow_line(speed):
     global m_dir, i_lr, t_finding_point
-
     now = rover.read_line_sensors()
+
     if now == (0, 0, 0, 0): #no line found
         rover.backward(speed)
     else:
@@ -67,7 +67,7 @@ def follow_line_until(speed, condition, timeout=10000):
     while time.ticks_ms() - last_time < timeout:
         if condition():
             count = count + 1
-            if count == 3:
+            if count == 2:
                 break
 
         if speed >= 0:
@@ -75,61 +75,57 @@ def follow_line_until(speed, condition, timeout=10000):
         else:
             rover.backward(abs(speed))
 
-        time.sleep_ms(10)
+        time.sleep_ms(5)
 
     rover.stop()
 
 def turn_until_line_detected(m1_speed, m2_speed, timeout=5000):
     count = 0
-    sensor_index = 2
-    sensor_indices = [1, 2]
-    sensor1 = 0
-    sensor2 = 0
+    sensor_index = 1
+
     if m1_speed > m2_speed:
-        sensor_index = 3
-        sensor_indices = [3, 4]
+        sensor_index = 2
  
-    last_line_status = rover.read_line_sensors(sensor_index)
+    last_line_status = rover.read_line_sensors(sensor_index+1)
   
     rover.set_wheel_speed(m1_speed, m2_speed)
   
     last_time = time.ticks_ms()
 
     while time.ticks_ms() - last_time < timeout:
-    
-        current_line_status = rover.read_line_sensors(sensor_index)
+        current_line_status = rover.read_line_sensors()
 
-        if current_line_status == 1: # black line detected
+        if current_line_status[sensor_index] == 1: # black line detected
 	          # ignore case when robot is still on black line since started turning
             if last_line_status == 1 or time.ticks_ms() - last_time < 500:
                 continue
             else:
-                if not sensor1:
-                  sensor1 = rover.read_line_sensors(sensor_indices[0])
-                if not sensor2:
-                  sensor2 = rover.read_line_sensors(sensor_indices[1])
-                if sensor1 and sensor2:
-                # only considered as black line detected after 3 times reading
-                #if count > 3:
-                    rover.stop()
-                    break
-                #else:
-                #    count = count + 1
+                if current_line_status[0] or current_line_status[1] or current_line_status[2] or current_line_status[3]:
+                    count = count + 1
+
+                    # only considered as black line detected after 2 times reading                
+                    if count > 2:
+                        break
         else: # meet white background
             last_line_status = 0
-                
-        time.sleep_ms(10)
+
     rover.stop()
+
     time.sleep_ms(500) # time stop
+
     if rover.read_line_sensors() == (0, 0, 0, 0): # moved off black line
-        while True:
+        last_time = time.ticks_ms()
+        while time.ticks_ms() - last_time < 500: # max timeout 500ms
             rover.set_wheel_speed(-(m1_speed), -(m2_speed)) # turning back when meet white background
-            if (rover.read_line_sensors(1) or rover.read_line_sensors(2) or rover.read_line_sensors(3) or rover.read_line_sensors(4)): #check line sensor meet black line
-                rover.stop()
+            line_status = rover.read_line_sensors()
+            if line_status[0] or line_status[1] or line_status[2] or line_status[3]: #check line sensor meet black line
+                #rover.stop()
                 break
-            time.sleep_ms(10)
+
+            #time.sleep_ms(20)
+
     rover.stop()
-    time.sleep_ms(1000)
+    time.sleep_ms(500)
 
 def turn_until_condition(m1_speed, m2_speed, condition, timeout=5000):
     count = 0
@@ -146,7 +142,7 @@ def turn_until_condition(m1_speed, m2_speed, condition, timeout=5000):
         time.sleep_ms(10)
 
     rover.stop()
-    time.sleep_ms(1000)
+    time.sleep_ms(500)
 
 def ball_launcher(index_1=0, index_2=1, mode=-1):
     servo_1 = index_1 + 1
