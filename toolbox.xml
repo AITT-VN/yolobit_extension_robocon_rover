@@ -74,6 +74,7 @@
         </shadow>
       </value>
     </block>
+    <block type="control_gripper"></block>
   </category>
   
   <category name="GAMEPAD" colour="#cb2026" icon="gamepad">
