@@ -238,7 +238,7 @@ Blockly.Blocks['control_gripper'] = {
     this.jsonInit(
       {
         "type": "control_gripper",
-        "message0": "%1 tay gắp",
+        "message0": "%1 tay gắp tốc độ %2 (0-100)",
         "args0": [     
           {
             type: "field_dropdown",
@@ -249,6 +249,11 @@ Blockly.Blocks['control_gripper'] = {
             ["đóng", "collect"],
             ["mở", "release"],            
             ]
+          },
+          {
+            "type": "input_value",
+            "name": "speed",
+            "check": "Number",
           }     
         ],
         "inputsInline": true,
@@ -266,16 +271,17 @@ Blockly.Python["control_gripper"] = function (block) {
   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
   Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
   var dropdown_type = block.getFieldValue('action');
+  var rotate_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
   var code = "";
   if (dropdown_type == 'collect')
-    code = "set_servo_position(1, 90, 90)\n";
+    code = "set_servo_position(1, 90, "+ rotate_speed + ")\n";
   else if (dropdown_type == 'release')
-    code = "set_servo_position(1, 0, 90)\n";
+    code = "set_servo_position(1, 0, "+ rotate_speed + ")\n";
   else if (dropdown_type == 'lift_up')
-    code = "set_servo_position(2, 90, 90)\n";
+    code = "set_servo_position(2, 90, "+ rotate_speed + ")\n";
   else
-    code = "set_servo_position(2, 0, 90)\n";
+    code = "set_servo_position(2, 0, "+ rotate_speed + ")\n";
   // TODO: Change ORDER_NONE to the correct strength.
   return code;
 };
