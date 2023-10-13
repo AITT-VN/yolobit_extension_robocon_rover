@@ -246,8 +246,8 @@ Blockly.Blocks['control_gripper'] = {
             options: [
             ["nâng", "lift_up"],
             ["hạ", "lift_down"],
-            ["gắp", "collect"],
-            ["thả", "release"],            
+            ["đóng", "collect"],
+            ["mở", "release"],            
             ]
           }     
         ],
