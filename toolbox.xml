@@ -62,6 +62,13 @@
         </shadow>
       </value>
     </block>
+    <block type="control_gripper">
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">80</field>
+        </shadow>
+      </value>
+    </block>
     <block type="control_servo">
       <value name="angle">
         <shadow type="math_number">
@@ -73,7 +80,7 @@
           <field name="NUM">80</field>
         </shadow>
       </value>
-    </block>
+    </block>    
   </category>
   
   <category name="GAMEPAD" colour="#cb2026" icon="gamepad">
