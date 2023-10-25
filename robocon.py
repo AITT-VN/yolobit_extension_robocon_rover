@@ -1,6 +1,14 @@
 import time
 from rover import *
 
+def stop_rover():
+    rover.ina1.duty(1023)
+    rover.ina2.duty(1023)
+    rover.inb1.duty(1023)
+    rover.inb2.duty(1023)
+    time.sleep_ms(100)
+    rover.stop()
+
 speed_factors = [ 
     [1, 1], [0.5, 1], [0, 1], [-0.5, 0.5], 
     [-2/3, -2/3], [0, 1], [-0.5, 0.5], [-0.7, 0.7] 
@@ -10,7 +18,8 @@ speed_factors = [
 m_dir = -1 #no found
 i_lr = 0 #0 for left, 1 for right
 t_finding_point = time.time_ns()
-current_position = 90
+s1_current_position = 0
+s2_current_position = 90
 
 def follow_line(speed):
     global m_dir, i_lr, t_finding_point
@@ -61,23 +70,30 @@ def follow_line(speed):
 
 
 def follow_line_until(speed, condition, timeout=10000):
+    status = 1
     count = 0
     last_time = time.ticks_ms()
 
     while time.ticks_ms() - last_time < timeout:
-        if condition():
-            count = count + 1
-            if count == 2:
-                break
+        now = rover.read_line_sensors()
+
+        if status == 1:
+            if now != (1, 1, 1, 1):
+                status = 2
+        elif status == 2:
+            if condition():
+                count = count + 1
+                if count == 2:
+                    break
 
         if speed >= 0:
             follow_line(speed)
         else:
             rover.backward(abs(speed))
 
-        time.sleep_ms(5)
+        time.sleep_ms(10)
 
-    rover.stop()
+    stop_rover()
 
 def turn_until_line_detected(m1_speed, m2_speed, timeout=5000):
     counter = 0
@@ -123,7 +139,7 @@ def turn_until_line_detected(m1_speed, m2_speed, timeout=5000):
 
         time.sleep_ms(10)
 
-    rover.stop()
+    stop_rover()
 
     time.sleep_ms(500) # time stop
 
@@ -141,7 +157,7 @@ def turn_until_condition(m1_speed, m2_speed, condition, timeout=5000):
                 break
         time.sleep_ms(10)
 
-    rover.stop()
+    stop_rover()
     time.sleep_ms(500)
 
 def ball_launcher(index_1=0, index_2=1, mode=-1):
@@ -160,19 +176,25 @@ def ball_launcher(index_1=0, index_2=1, mode=-1):
         time.sleep_ms(250)
 
 
-def set_servo_position(pin, next_position , speed=80):
-    global current_position 
-    sleep = translate(speed, 0, 100, 50, 0.1)
-
-    if speed == 0:
+def set_servo_position(pin, next_position, speed=70):
+    global s1_current_position, s2_current_position
+    
+    if speed < 0 or speed > 100:
         return
+    
+    sleep = translate(speed, 0, 100, 100, 0)
     
     if next_position < 0:
         next_position = 0
 
-    if next_position > 90:
-        next_position = 90
-        
+    if next_position > 180:
+        next_position = 180
+    
+    if pin == 1:
+        current_position = s1_current_position
+    else:
+        current_position = s2_current_position
+    
     if next_position < current_position:
         for i in range(current_position, next_position, -1):
             rover.servo_write(pin, i)
@@ -182,5 +204,8 @@ def set_servo_position(pin, next_position , speed=80):
             rover.servo_write(pin, i)
             time.sleep_ms(int(sleep))
 
-    current_position = next_position
+    if pin == 1:
+        s1_current_position = next_position
+    else:
+        s2_current_position = next_position
 
