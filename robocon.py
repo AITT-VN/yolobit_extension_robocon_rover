@@ -18,8 +18,8 @@ speed_factors = [
 m_dir = -1 #no found
 i_lr = 0 #0 for left, 1 for right
 t_finding_point = time.time_ns()
-s1_current_position = 0
-s2_current_position = 90
+s1_current_position = -1
+s2_current_position = -1
 
 def follow_line(speed):
     global m_dir, i_lr, t_finding_point
@@ -93,17 +93,19 @@ def follow_line_until(speed, condition, timeout=10000):
 
         time.sleep_ms(10)
 
-    stop_rover()
+    rover.stop()
 
 def turn_until_line_detected(m1_speed, m2_speed, timeout=5000):
     counter = 0
     status = 0
 
-    sensor_first_check = 0
+    sensor_first_check1 = 0
+    sensor_first_check2 = 1
     sensor_second_check = 3
 
     if m1_speed > m2_speed:
-        sensor_first_check = 3
+        sensor_first_check1 = 3
+        sensor_first_check2 = 2
         sensor_second_check = 0
   
     last_time = time.ticks_ms()
@@ -114,7 +116,7 @@ def turn_until_line_detected(m1_speed, m2_speed, timeout=5000):
         line_status = rover.read_line_sensors()
 
         if status == 0:
-            if line_status[0] == 0 and line_status[1] == 0 and line_status[2] == 0 and line_status[3] ==0: # no black line detected
+            if line_status == (0, 0, 0, 0): # no black line detected
                 # ignore case when robot is still on black line since started turning
                 status = 1
         
@@ -122,8 +124,8 @@ def turn_until_line_detected(m1_speed, m2_speed, timeout=5000):
             rover.set_wheel_speed(m1_speed, m2_speed)
             status = 2
         elif status == 2:
-            if line_status[sensor_first_check] == 1:
-                rover.set_wheel_speed(m1_speed >> 1, m2_speed >> 1)
+            if line_status[sensor_first_check1] == 1 or line_status[sensor_first_check2] == 1:
+                rover.set_wheel_speed(int(m1_speed*0.75), int(m2_speed*0.75))
                 status = 3
         elif status == 3:
             if line_status[sensor_second_check] == 1:
@@ -137,7 +139,7 @@ def turn_until_line_detected(m1_speed, m2_speed, timeout=5000):
                 #status = 5
                 break
 
-        time.sleep_ms(10)
+        time.sleep_ms(5)
 
     stop_rover()
 
@@ -178,8 +180,10 @@ def ball_launcher(index_1=0, index_2=1, mode=-1):
 
 def set_servo_position(pin, next_position, speed=70):
     global s1_current_position, s2_current_position
-    
+    current_position = 0
+        
     if speed < 0 or speed > 100:
+        print('Invalid servo speed')
         return
     
     sleep = translate(speed, 0, 100, 100, 0)
@@ -191,9 +195,19 @@ def set_servo_position(pin, next_position, speed=70):
         next_position = 180
     
     if pin == 1:
-        current_position = s1_current_position
+        if s1_current_position == -1:
+            rover.servo_write(pin, next_position)
+            s1_current_position = next_position
+            return
+        else:    
+            current_position = s1_current_position
     else:
-        current_position = s2_current_position
+        if s2_current_position == -1:
+            rover.servo_write(pin, next_position)
+            s2_current_position = next_position
+            return
+        else:
+            current_position = s2_current_position
     
     if next_position < current_position:
         for i in range(current_position, next_position, -1):
@@ -201,6 +215,7 @@ def set_servo_position(pin, next_position, speed=70):
             time.sleep_ms(int(sleep))
     else:
         for i in range(current_position, next_position):
+            print(i)
             rover.servo_write(pin, i)
             time.sleep_ms(int(sleep))
 
@@ -208,4 +223,3 @@ def set_servo_position(pin, next_position, speed=70):
         s1_current_position = next_position
     else:
         s2_current_position = next_position
-
