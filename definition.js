@@ -1,6 +1,167 @@
 const ColorBlock = '#cb2026';
 const ImgUrl = 'https://ohstem-public.s3.ap-southeast-1.amazonaws.com/extensions/AITT-VN/yolobit_extension_robocon_rover/images/';
 
+Blockly.Blocks['robocon_follow_line_until_cross'] = {
+  init: function () {
+    this.jsonInit(
+      {
+        "type": "robocon_follow_line_until_cross",
+        "message0": "dò line tốc độ %1 gặp vạch ngang rồi %2",
+        "args0": [
+          {
+            type: "input_value",
+            check: "Number",
+            value: 50,
+            name: "speed",
+          },
+          {
+            type: "field_dropdown",
+            name: "stop",
+            options: [
+            ["dừng và khóa bánh", "BRAKE"],
+            ["dừng lại", "STOP"],
+            ["không làm gì", "None"],
+            ]
+          },
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": ColorBlock,
+        "tooltip": "",
+        "helpUrl": ""
+      }
+    );
+  }
+};
+
+Blockly.Python["robocon_follow_line_until_cross"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
+  var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+  var stop = block.getFieldValue('stop');
+  // TODO: Assemble Python into code variable.
+  var code = "follow_line_until_cross(" + speed + ", 15000, " + stop + ")\n";
+  return code;
+};
+
+Blockly.Blocks['robocon_follow_line_until_end'] = {
+  init: function () {
+    this.jsonInit(
+      {
+        "type": "robocon_follow_line_until_end",
+        "message0": "dò line tốc độ %1 đến cuối vạch đen rồi %2",
+        "args0": [
+          {
+            type: "input_value",
+            check: "Number",
+            value: 50,
+            name: "speed",
+          },
+          {
+            type: "field_dropdown",
+            name: "stop",
+            options: [
+            ["dừng và khóa bánh", "BRAKE"],
+            ["dừng lại", "STOP"],
+            ["không làm gì", "None"],
+            ]
+          },
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": ColorBlock,
+        "tooltip": "",
+        "helpUrl": ""
+      }
+    );
+  }
+};
+
+Blockly.Python["robocon_follow_line_until_end"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
+  var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+  var stop = block.getFieldValue('stop');
+  // TODO: Assemble Python into code variable.
+  var code = "follow_line_until_end(" + speed + ", 15000, " + stop + ")\n";
+  return code;
+};
+
+Blockly.Blocks['robocon_turn_until_line_detected_then'] = {
+  init: function () {
+    this.jsonInit(
+      {
+        "type": "robocon_turn_until_line_detected_then",
+        "message0": "quay %1 tốc độ %2 gặp vạch đen rồi %3",
+        "args0": [
+          {
+            "type": "field_dropdown",
+            "name": "direction",
+            "options": [
+              [
+                {
+                  "src": "static/blocks/block_images/860774.svg",
+                  "width": 15,
+                  "height": 15,
+                  "alt": "*"
+                },
+                "left"
+              ],
+              [
+                {
+                  "src": "static/blocks/block_images/74474.svg",
+                  "width": 15,
+                  "height": 15,
+                  "alt": "*"
+                },
+                "right"
+              ]
+            ]
+          },
+          {
+            "type": "input_value",
+            "name": "speed",
+            "check": "Number",
+          },
+          {
+            type: "field_dropdown",
+            name: "stop",
+            options: [
+            ["dừng và khóa bánh", "BRAKE"],
+            ["dừng lại", "STOP"],
+            ["không làm gì", "None"],
+            ]
+          },
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": ColorBlock,
+        "tooltip": "",
+        "helpUrl": ""
+      }
+    );
+  }
+};
+
+Blockly.Python["robocon_turn_until_line_detected_then"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
+  var dir = block.getFieldValue('direction');
+  var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+  var stop = block.getFieldValue('stop');
+  // TODO: Assemble Python into code variable.
+  var code = "";
+  if (dir == "left") {
+    code = "turn_until_line_detected(" + -speed + ", " + speed + ", 5000, " + stop + ")\n";
+  } else {
+    code = "turn_until_line_detected(" + speed + ", " + -speed + ", 5000, " + stop + ")\n";
+  }
+  return code;
+};
+
 Blockly.Blocks['robocon_follow_line_until'] = {
   init: function () {
     this.jsonInit(
