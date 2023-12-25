@@ -4,6 +4,7 @@ from rover import *
 from yolobit import *
 from machine import Pin, SoftI2C
 from utility import *
+from ble import *
 import gamepad
 
 BTN_FORWARD = '!B516'
@@ -23,20 +24,20 @@ class RemoteControlMode():
         self._speed = 50
         self._cmd = None
         self._last_cmd = None
-
+        
         self._cmd_handlers = {
             BTN_A: None,
             BTN_B: None,
             BTN_C: None,
             BTN_D: None,
         }
-
-        try:
-            self._i2c_gp = SoftI2C(scl=Pin(22), sda=Pin(21))
-            self._gamepad_v2 = gamepad.GamePadReceiver(self._i2c_gp)
-        except:
+        
+        self._i2c_gp = SoftI2C(scl=Pin(22), sda=Pin(21), freq=100000)
+        if self._i2c_gp.scan().count(0x55) == 0:
             self._gamepad_v2 = None
-            print('Gamepad V2 Receiver not found')
+            raise OSError('Gamepad V2 Receiver not found {:#x}'.format(0x55))
+        else:
+            self._gamepad_v2 = gamepad.GamePadReceiver(self._i2c_gp)
         
         ble.on_receive_msg('string', self.on_ble_cmd_received)
 
@@ -53,9 +54,30 @@ class RemoteControlMode():
 
     def run(self):
         # read command from gamepad v2 receiver if connected
-        if self._gamepad_v2:
+        if self._gamepad_v2 != None:
             # read status
-            pass
+            
+            self._gamepad_v2.update()
+
+            if self._gamepad_v2._isconnected == True:
+                if self._gamepad_v2.data['dpad_up']:
+                    self._cmd = BTN_FORWARD
+                elif self._gamepad_v2.data['dpad_down']:
+                    self._cmd = BTN_BACKWARD
+                elif self._gamepad_v2.data['dpad_left']:
+                    self._cmd = BTN_LEFT
+                elif self._gamepad_v2.data['dpad_right']:
+                    self._cmd = BTN_RIGHT
+                elif self._gamepad_v2.data['a']:
+                    self._cmd = BTN_C
+                elif self._gamepad_v2.data['b']:
+                    self._cmd = BTN_D
+                elif self._gamepad_v2.data['x']:
+                    self._cmd = BTN_A
+                elif self._gamepad_v2.data['y']:
+                    self._cmd = BTN_B
+                else:
+                    self._cmd = '!507'
 
         if self._cmd != self._last_cmd: # got new command
             self._speed = 20 # reset speed
@@ -92,21 +114,21 @@ rc_mode = RemoteControlMode()
 
 # Example code
 
-def on_button_A():
+def on_gamepad_button_A():
     # button A: lift down and release gripper
     rover.servo_write(2, 0)
     time.sleep_ms(500)
     rover.servo_write(1, 0)
 
-def on_button_D():
+def on_gamepad_button_D():
     # button D: collect and lift up gripper
     rover.servo_write(1, 90)
     time.sleep_ms(500)
     rover.servo_write(2, 90)
 
 # allow user to config what to do when a gamepad button pressed
-rc_mode.set_command(BTN_A, on_button_A)
-rc_mode.set_command(BTN_D, on_button_D)
+rc_mode.set_command(BTN_A, on_gamepad_button_A)
+rc_mode.set_command(BTN_D, on_gamepad_button_D)
 
 while True:
     rc_mode.run()

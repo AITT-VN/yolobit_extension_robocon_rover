@@ -18,9 +18,9 @@ Blockly.Blocks['robocon_follow_line_until_cross'] = {
             type: "field_dropdown",
             name: "stop",
             options: [
-            ["dừng và khóa bánh", "BRAKE"],
-            ["dừng lại", "STOP"],
-            ["không làm gì", "None"],
+              ["dừng và khóa bánh", "BRAKE"],
+              ["dừng lại", "STOP"],
+              ["không làm gì", "None"],
             ]
           },
         ],
@@ -62,9 +62,9 @@ Blockly.Blocks['robocon_follow_line_until_end'] = {
             type: "field_dropdown",
             name: "stop",
             options: [
-            ["dừng và khóa bánh", "BRAKE"],
-            ["dừng lại", "STOP"],
-            ["không làm gì", "None"],
+              ["dừng và khóa bánh", "BRAKE"],
+              ["dừng lại", "STOP"],
+              ["không làm gì", "None"],
             ]
           },
         ],
@@ -129,9 +129,9 @@ Blockly.Blocks['robocon_turn_until_line_detected_then'] = {
             type: "field_dropdown",
             name: "stop",
             options: [
-            ["dừng và khóa bánh", "BRAKE"],
-            ["dừng lại", "STOP"],
-            ["không làm gì", "None"],
+              ["dừng và khóa bánh", "BRAKE"],
+              ["dừng lại", "STOP"],
+              ["không làm gì", "None"],
             ]
           },
         ],
@@ -195,6 +195,7 @@ Blockly.Blocks['robocon_follow_line_until'] = {
     );
   }
 };
+
 Blockly.Python["robocon_follow_line_until"] = function (block) {
   Blockly.Python.definitions_['import_rover'] = 'from rover import *';
   Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
@@ -356,8 +357,8 @@ Blockly.Blocks['control_servo'] = {
             type: "field_dropdown",
             name: "pin",
             options: [
-            ["S1", "1"],
-            ["S2", "2"],
+              ["S1", "1"],
+              ["S2", "2"],
             ]
           },
           {
@@ -389,7 +390,7 @@ Blockly.Python["control_servo"] = function (block) {
   var dropdown_pin = block.getFieldValue('pin');
   var servo_speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = "set_servo_position(" + dropdown_pin + ", " + angle_servo + ", " + servo_speed+")\n";
+  var code = "set_servo_position(" + dropdown_pin + ", " + angle_servo + ", " + servo_speed + ")\n";
   return code;
 };
 
@@ -400,22 +401,22 @@ Blockly.Blocks['control_gripper'] = {
       {
         "type": "control_gripper",
         "message0": "%1 tay gắp tốc độ %2 (0-100)",
-        "args0": [     
+        "args0": [
           {
             type: "field_dropdown",
             name: "action",
             options: [
-            ["nâng", "lift_up"],
-            ["hạ", "lift_down"],
-            ["đóng", "collect"],
-            ["mở", "release"],            
+              ["nâng", "lift_up"],
+              ["hạ", "lift_down"],
+              ["đóng", "collect"],
+              ["mở", "release"],
             ]
           },
           {
             "type": "input_value",
             "name": "speed",
             "check": "Number",
-          }     
+          }
         ],
         "inputsInline": true,
         "previousStatement": null,
@@ -436,13 +437,13 @@ Blockly.Python["control_gripper"] = function (block) {
   // TODO: Assemble Python into code variable.
   var code = "";
   if (dropdown_type == 'collect')
-    code = "set_servo_position(1, 90, "+ rotate_speed + ")\n";
+    code = "set_servo_position(1, 90, " + rotate_speed + ")\n";
   else if (dropdown_type == 'release')
-    code = "set_servo_position(1, 0, "+ rotate_speed + ")\n";
+    code = "set_servo_position(1, 0, " + rotate_speed + ")\n";
   else if (dropdown_type == 'lift_up')
-    code = "set_servo_position(2, 90, "+ rotate_speed + ")\n";
+    code = "set_servo_position(2, 90, " + rotate_speed + ")\n";
   else
-    code = "set_servo_position(2, 0, "+ rotate_speed + ")\n";
+    code = "set_servo_position(2, 0, " + rotate_speed + ")\n";
   // TODO: Change ORDER_NONE to the correct strength.
   return code;
 };
@@ -1561,4 +1562,119 @@ Blockly.Python["gamepad_is_connected"] = function (block) {
   // TODO: Assemble Python into code variable.
   var code = "gamepad_handler.is_connected()";
   return [code, Blockly.Python.ORDER_NONE];
+};
+
+// REMOTE CONTROL BLOCK
+
+Blockly.Blocks['remote_control_init'] = {
+  init: function () {
+    this.jsonInit(
+      {
+        type: "remote_control_init",
+        message0: "bật chế độ điều khiển bằng gamepad",
+        previousStatement: null,
+        nextStatement: null,
+        args0: [
+        ],
+        colour: ColorBlock,
+        tooltip: "",
+        helpUrl: ""
+      }
+    )
+  },
+  getDeveloperVars: function () {
+    return ['rc_mode'];
+  }
+};
+
+Blockly.Python['remote_control_init'] = function (block) {
+  Blockly.Python.definitions_['import_remote_control'] = 'from remote_control import *';
+  // TODO: Assemble Python into code variable.
+  var code = "";
+  return code;
+};
+
+Blockly.Blocks['remote_control_processing'] = {
+  init: function () {
+    this.jsonInit(
+      {
+        type: "remote_control_processing",
+        message0: "xử lý lệnh từ gamepad",
+        previousStatement: null,
+        nextStatement: null,
+        args0: [
+        ],
+        colour: ColorBlock,
+        tooltip: "",
+        helpUrl: ""
+      }
+    )
+  },
+  getDeveloperVars: function () {
+    return ['rc_mode'];
+  }
+};
+
+Blockly.Python['remote_control_processing'] = function (block) {
+  Blockly.Python.definitions_['import_remote_control'] = 'from remote_control import *';
+  // TODO: Assemble Python into code variable.
+  var code = "rc_mode.run()\n";
+  return code;
+};
+
+Blockly.Blocks["remote_control_on_button_pressed"] = {
+  init: function () {
+    this.jsonInit({
+      colour: ColorBlock,
+      message0: 'nếu nút %1 được nhấn %2 %3 ',
+      tooltip: 'Thực hiện một tập lệnh khi nút được nhấn.',
+      args0: [
+        {
+          type: "field_dropdown",
+          name: "BUTTON",
+          options: [
+            ['A', 'A'],
+            ['B', 'B'],
+            ['C', 'C'],
+            ['D', 'D']
+          ],
+        },
+        {
+          type: "input_dummy",
+        },
+        {
+          type: "input_statement",
+          name: "ACTION",
+        },
+      ],
+      helpUrl: "",
+    });
+  },
+  getDeveloperVars: function () {
+    return ['rc_mode'];
+  }
+};
+
+Blockly.Python['remote_control_on_button_pressed'] = function (block) {
+  Blockly.Python.definitions_['import_remote_control'] = 'from remote_control import *';
+  var button = block.getFieldValue('BUTTON');
+  var statements_action = Blockly.Python.statementToCode(block, 'ACTION');
+
+  var globals = buildGlobalString(block);
+
+  var cbFunctionName = Blockly.Python.provideFunction_(
+    'on_gamepad_button_' + button,
+    (globals != '') ?
+      ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
+        globals,
+      statements_action || Blockly.Python.PASS
+      ] :
+      ['def ' + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + '():',
+      statements_action || Blockly.Python.PASS
+      ]);
+
+  var code = 'rc_mode.set_command(BTN_' + button + ', ' + cbFunctionName + ')\n';
+  Blockly.Python.definitions_['on_gamepad_button_callback' + button] = code;
+
+  return '';
 };

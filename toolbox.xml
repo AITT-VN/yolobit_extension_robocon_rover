@@ -108,6 +108,13 @@
         </shadow>
       </value>
     </block>
+
+    <sep gap="60"></sep>
+
+    <block type="remote_control_init"/>
+    <block type="remote_control_processing"/>
+    <block type="remote_control_on_button_pressed" />
+
   </category>
   
   <category name="GAMEPAD" colour="#cb2026" icon="gamepad">
