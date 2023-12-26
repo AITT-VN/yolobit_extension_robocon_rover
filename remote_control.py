@@ -7,6 +7,8 @@ from utility import *
 from ble import *
 import gamepad
 
+GAMEPAD_RECEIVER_ADDR = const(0x55)
+
 BTN_FORWARD = '!B516'
 BTN_BACKWARD = '!B615'
 BTN_LEFT = '!B714'
@@ -16,6 +18,8 @@ BTN_A = '!B11:'
 BTN_B = '!B219'
 BTN_C = '!B318'
 BTN_D = '!B417'
+
+BTN_RELEASED = '!507'
 
 
 class RemoteControlMode():
@@ -33,9 +37,9 @@ class RemoteControlMode():
         }
         
         self._i2c_gp = SoftI2C(scl=Pin(22), sda=Pin(21), freq=100000)
-        if self._i2c_gp.scan().count(0x55) == 0:
+        if self._i2c_gp.scan().count(GAMEPAD_RECEIVER_ADDR) == 0:
             self._gamepad_v2 = None
-            raise OSError('Gamepad V2 Receiver not found {:#x}'.format(0x55))
+            print('Gamepad V2 Receiver not found {:#x}'.format(GAMEPAD_RECEIVER_ADDR))
         else:
             self._gamepad_v2 = gamepad.GamePadReceiver(self._i2c_gp)
         
@@ -77,7 +81,7 @@ class RemoteControlMode():
                 elif self._gamepad_v2.data['y']:
                     self._cmd = BTN_B
                 else:
-                    self._cmd = '!507'
+                    self._cmd = BTN_RELEASED
 
         if self._cmd != self._last_cmd: # got new command
             self._speed = 20 # reset speed
