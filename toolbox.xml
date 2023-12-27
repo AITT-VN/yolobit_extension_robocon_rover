@@ -117,7 +117,7 @@
 
   </category>
   
-  <category name="GAMEPAD" colour="#cb2026" icon="gamepad">
+  <category name="GAMEPAD V2" colour="#cb2026" icon="gamepad">
     <block type="gamepad_init"/>
 
     <block type="gamepad_mode"/>
