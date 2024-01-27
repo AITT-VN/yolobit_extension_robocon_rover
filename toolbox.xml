@@ -1,5 +1,6 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
   <category name="ROBOCON" colour="#cb2026" icon="flag">
+    <label text="Dò line" web-class="blockLabelStyle"></label>
     <block type="robocon_follow_line_until_cross">
       <value name="speed">
         <shadow type="math_number">
@@ -55,7 +56,15 @@
       </value>
     </block>
 
-    <sep gap="60"></sep>
+    <sep gap="30"></sep>
+    <label text="Gamepad" web-class="blockLabelStyle"></label>
+
+    <block type="remote_control_init"/>
+    <block type="remote_control_processing"/>
+    <block type="remote_control_on_button_pressed" />
+
+    <sep gap="30"></sep>
+    <label text="Dò line nâng cao" web-class="blockLabelStyle"></label>
 
     <block type="robocon_follow_line_until">
       <value name="speed">
@@ -108,13 +117,6 @@
         </shadow>
       </value>
     </block>
-
-    <sep gap="60"></sep>
-
-    <block type="remote_control_init"/>
-    <block type="remote_control_processing"/>
-    <block type="remote_control_on_button_pressed" />
-
   </category>
   
   <category name="GAMEPAD" colour="#cb2026" icon="gamepad">

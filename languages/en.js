@@ -1,7 +1,111 @@
-Blockly.Msg.YOLOBIT_BLE_START_TOOLTIP = 'start bluetooth with given name';
-Blockly.Msg.YOLOBIT_BLE_START_MESSAGE0 = 'start bluetooth with name %1';
-Blockly.Msg.YOLOBIT_BLE_START_HELPURL = '';
-Blockly.Msg.YOLOBIT_BLE_ON_RECEIVE_MESSAGE_TOOLTIP = 'Define what to do when receive a bluetooth message from app';
-Blockly.Msg.YOLOBIT_BLE_ON_RECEIVE_MESSAGE_MESSAGE0 = 'when receive %1 from app %2 %3';
-Blockly.Msg.YOLOBIT_BLE_ON_RECEIVE_MESSAGE_MESSAGE1 = 'message';
-Blockly.Msg.YOLOBIT_BLE_ON_RECEIVE_MESSAGE_HELPURL = '';
+Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE = "brake"
+Blockly.Msg.ROBOCON_THEN_ACTION_STOP = "stop"
+Blockly.Msg.ROBOCON_THEN_ACTION_NONE = "do nothing"
+
+Blockly.Msg.ROBOCON_FOLLOW_LINE_CROSS_TOOLTIP = ""
+Blockly.Msg.ROBOCON_FOLLOW_LINE_CROSS_MESSAGE0 = "follow line speed %1 to cross line then %2"
+Blockly.Msg.ROBOCON_FOLLOW_LINE_CROSS_HELPURL = ""
+
+Blockly.Msg.ROBOCON_FOLLOW_LINE_END_TOOLTIP = ""
+Blockly.Msg.ROBOCON_FOLLOW_LINE_END_MESSAGE0 = "follow line speed %1 to end then %2"
+Blockly.Msg.ROBOCON_FOLLOW_LINE_END_HELPURL = ""
+
+Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_THEN_TOOLTIP = ""
+Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_THEN_MESSAGE0 = "turn %1 speed %2 until line detected then %3"
+Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_THEN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_FOLLOW_LINE_UNTIL_TOOLTIP = ""
+Blockly.Msg.ROBOCON_FOLLOW_LINE_UNTIL_MESSAGE0 = "follow line speed %1 until %2 max %3 secs"
+Blockly.Msg.ROBOCON_FOLLOW_LINE_UNTIL_HELPURL = ""
+
+Blockly.Msg.ROBOCON_FOLLOW_LINE_DELAY_TOOLTIP = ""
+Blockly.Msg.ROBOCON_FOLLOW_LINE_DELAY_MESSAGE0 = "follow line speed %1 (0-100) in %2 secs"
+Blockly.Msg.ROBOCON_FOLLOW_LINE_DELAY_HELPURL = ""
+
+Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_TOOLTIP = ""
+Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_MESSAGE0 = "set motor left %1 right %2 until line detected max %3 secs"
+Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_HELPURL = ""
+
+Blockly.Msg.ROBOCON_TURN_UNTIL_CONDITION_TOOLTIP = ""
+Blockly.Msg.ROBOCON_TURN_UNTIL_CONDITION_MESSAGE0 = "set motor left %1 right %2 until %3 max %4 secs"
+Blockly.Msg.ROBOCON_TURN_UNTIL_CONDITION_HELPURL = ""
+
+Blockly.Msg.ROBOCON_CONTROL_SERVO_TOOLTIP = ""
+Blockly.Msg.ROBOCON_CONTROL_SERVO_MESSAGE0 = "servo %1 position %2 speed %3 (0-100)"
+Blockly.Msg.ROBOCON_CONTROL_SERVO_HELPURL = ""
+
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_TOOLTIP = ""
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_MESSAGE0 = "%1 gripper speed %2 (0-100)"
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_HELPURL = ""
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_LIFT = "lift"
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_DROP = "drop"
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_OPEN = "open"
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_GRAB = "close"
+
+Blockly.Msg.ROBOCON_GAMEPAD_INIT_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_INIT_MESSAGE0 = "init gamepad receiver"
+Blockly.Msg.ROBOCON_GAMEPAD_INIT_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_MODE_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_MODE_MESSAGE0 = "set drive mode %1"
+Blockly.Msg.ROBOCON_GAMEPAD_MODE_HELPURL = ""
+Blockly.Msg.ROBOCON_GAMEPAD_MODE_DPAD = "dpad"
+Blockly.Msg.ROBOCON_GAMEPAD_MODE_LEFT_JOYSTICK = "left joystick"
+Blockly.Msg.ROBOCON_GAMEPAD_MODE_RIGHT_JOYSTICK = "right joystick"
+Blockly.Msg.ROBOCON_GAMEPAD_MODE_BOTH_JOYSTICK = "left joystick + right joystick"
+
+Blockly.Msg.ROBOCON_GAMEPAD_SPEED_BTN_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_SPEED_BTN_MESSAGE0 = "set speed button: %1 faster - %2 slower"
+Blockly.Msg.ROBOCON_GAMEPAD_SPEED_BTN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_SERVO_BTN_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_SERVO_BTN_MESSAGE0 = "servo %1: %2 position %3, %4 position %5 with speed %6"
+Blockly.Msg.ROBOCON_GAMEPAD_SERVO_BTN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_MESSAGE0 = "process gamepad signal"
+Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_SET_LED_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_SET_LED_MESSAGE0 = "set gamepad LED color %1"
+Blockly.Msg.ROBOCON_GAMEPAD_SET_LED_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_SET_RUMBLE_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_SET_RUMBLE_MESSAGE0 = "vibrate gamepad level %1 (0-100) in %2 ms (0-2000)"
+Blockly.Msg.ROBOCON_GAMEPAD_SET_RUMBLE_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_TURBO_BTN_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_TURBO_BTN_MESSAGE0 = "set turbo speed button: %1"
+Blockly.Msg.ROBOCON_GAMEPAD_TURBO_BTN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_LINE_BTN_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_LINE_BTN_MESSAGE0 = "robot follow line speed %2 when %1 pressed"
+Blockly.Msg.ROBOCON_GAMEPAD_LINE_BTN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_GRIPPER_BTN_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_GRIPPER_BTN_MESSAGE0 = "gripper %1 : %2 to open %3 to close"
+Blockly.Msg.ROBOCON_GAMEPAD_GRIPPER_BTN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_BALL_BTN_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_BALL_BTN_MESSAGE0 = "set ball launcher servo %1 and %2: %3 reload %4 fire"
+Blockly.Msg.ROBOCON_GAMEPAD_BALL_BTN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_CHANGE_MODE_BTN_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_CHANGE_MODE_BTN_MESSAGE0 = "change drive mode button: %1"
+Blockly.Msg.ROBOCON_GAMEPAD_CHANGE_MODE_BTN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_IS_CONNECTED_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_IS_CONNECTED_MESSAGE0 = "gamepad connected"
+Blockly.Msg.ROBOCON_GAMEPAD_IS_CONNECTED_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_START_REMOTE_CONTROL_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_START_REMOTE_CONTROL_MESSAGE0 = "enable remote control by gamepad"
+Blockly.Msg.ROBOCON_GAMEPAD_START_REMOTE_CONTROL_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_REMOTE_CONTROL_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_REMOTE_CONTROL_MESSAGE0 = "process gamepad command"
+Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_REMOTE_CONTROL_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_TOOLTIP = ""
+Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_MESSAGE0 = "when gamepad button %1 pressed %2 %3 "
+Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_HELPURL = ""

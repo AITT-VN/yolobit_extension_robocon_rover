@@ -1,3 +1,4 @@
+
 const ColorBlock = '#cb2026';
 const ImgUrl = 'https://ohstem-public.s3.ap-southeast-1.amazonaws.com/extensions/AITT-VN/yolobit_extension_robocon_rover/images/';
 
@@ -6,7 +7,7 @@ Blockly.Blocks['robocon_follow_line_until_cross'] = {
     this.jsonInit(
       {
         "type": "robocon_follow_line_until_cross",
-        "message0": "dò line tốc độ %1 gặp vạch ngang rồi %2",
+        "message0": Blockly.Msg.ROBOCON_FOLLOW_LINE_CROSS_MESSAGE0,
         "args0": [
           {
             type: "input_value",
@@ -18,9 +19,9 @@ Blockly.Blocks['robocon_follow_line_until_cross'] = {
             type: "field_dropdown",
             name: "stop",
             options: [
-              ["dừng và khóa bánh", "BRAKE"],
-              ["dừng lại", "STOP"],
-              ["không làm gì", "None"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE, "BRAKE"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_STOP, "STOP"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_NONE, "None"],
             ]
           },
         ],
@@ -28,8 +29,8 @@ Blockly.Blocks['robocon_follow_line_until_cross'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_FOLLOW_LINE_CROSS_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_FOLLOW_LINE_CROSS_HELPURL
       }
     );
   }
@@ -50,7 +51,7 @@ Blockly.Blocks['robocon_follow_line_until_end'] = {
     this.jsonInit(
       {
         "type": "robocon_follow_line_until_end",
-        "message0": "dò line tốc độ %1 đến cuối vạch đen rồi %2",
+        "message0": Blockly.Msg.ROBOCON_FOLLOW_LINE_END_MESSAGE0,
         "args0": [
           {
             type: "input_value",
@@ -62,9 +63,9 @@ Blockly.Blocks['robocon_follow_line_until_end'] = {
             type: "field_dropdown",
             name: "stop",
             options: [
-              ["dừng và khóa bánh", "BRAKE"],
-              ["dừng lại", "STOP"],
-              ["không làm gì", "None"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE, "BRAKE"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_STOP, "STOP"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_NONE, "None"],
             ]
           },
         ],
@@ -72,8 +73,8 @@ Blockly.Blocks['robocon_follow_line_until_end'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_FOLLOW_LINE_END_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_FOLLOW_LINE_END_HELPURL
       }
     );
   }
@@ -94,7 +95,7 @@ Blockly.Blocks['robocon_turn_until_line_detected_then'] = {
     this.jsonInit(
       {
         "type": "robocon_turn_until_line_detected_then",
-        "message0": "quay %1 tốc độ %2 gặp vạch đen rồi %3",
+        "message0": Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_THEN_MESSAGE0,
         "args0": [
           {
             "type": "field_dropdown",
@@ -129,9 +130,9 @@ Blockly.Blocks['robocon_turn_until_line_detected_then'] = {
             type: "field_dropdown",
             name: "stop",
             options: [
-              ["dừng và khóa bánh", "BRAKE"],
-              ["dừng lại", "STOP"],
-              ["không làm gì", "None"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE, "BRAKE"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_STOP, "STOP"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_NONE, "None"],
             ]
           },
         ],
@@ -139,8 +140,8 @@ Blockly.Blocks['robocon_turn_until_line_detected_then'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_THEN_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_THEN_HELPURL
       }
     );
   }
@@ -167,7 +168,7 @@ Blockly.Blocks['robocon_follow_line_until'] = {
     this.jsonInit(
       {
         "type": "robocon_follow_line_until",
-        "message0": "dò line tốc độ %1 đến khi %2 tối đa %3 giây",
+        "message0": Blockly.Msg.ROBOCON_FOLLOW_LINE_UNTIL_MESSAGE0,
         "args0": [
           {
             type: "input_value",
@@ -189,8 +190,8 @@ Blockly.Blocks['robocon_follow_line_until'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_FOLLOW_LINE_UNTIL_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_FOLLOW_LINE_UNTIL_HELPURL
       }
     );
   }
@@ -212,7 +213,7 @@ Blockly.Blocks['robocon_follow_line_delay'] = {
     this.jsonInit(
       {
         "type": "robocon_follow_line_delay",
-        "message0": "dò line với tốc độ %1 (0-100) trong %2 giây",
+        "message0": Blockly.Msg.ROBOCON_FOLLOW_LINE_DELAY_MESSAGE0,
         "args0": [
 
           {
@@ -233,8 +234,8 @@ Blockly.Blocks['robocon_follow_line_delay'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_FOLLOW_LINE_DELAY_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_FOLLOW_LINE_DELAY_HELPURL
       }
     );
   }
@@ -255,7 +256,7 @@ Blockly.Blocks['robocon_turn_until_line_detected'] = {
     this.jsonInit(
       {
         "type": "robocon_move_motor",
-        "message0": "quay động cơ trái %1 phải %2 đến khi gặp vạch đen tối đa %3 giây",
+        "message0": Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_MESSAGE0,
         "args0": [
           {
             "type": "input_value",
@@ -277,8 +278,8 @@ Blockly.Blocks['robocon_turn_until_line_detected'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_TURN_UNTIL_LINE_HELPURL
       }
     );
   }
@@ -300,7 +301,7 @@ Blockly.Blocks['robocon_turn_until_condition'] = {
     this.jsonInit(
       {
         "type": "robocon_move_motor",
-        "message0": "quay động cơ trái %1 phải %2 đến khi %3 tối đa %4 giây",
+        "message0": Blockly.Msg.ROBOCON_TURN_UNTIL_CONDITION_MESSAGE0,
         "args0": [
           {
             "type": "input_value",
@@ -327,8 +328,8 @@ Blockly.Blocks['robocon_turn_until_condition'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_TURN_UNTIL_CONDITION_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_TURN_UNTIL_CONDITION_HELPURL
       }
     );
   }
@@ -351,7 +352,7 @@ Blockly.Blocks['control_servo'] = {
     this.jsonInit(
       {
         "type": "control_servo",
-        "message0": "servo %1 quay %2 độ tốc độ %3 (0-100)",
+        "message0": Blockly.Msg.ROBOCON_CONTROL_SERVO_MESSAGE0,
         "args0": [
           {
             type: "field_dropdown",
@@ -376,8 +377,8 @@ Blockly.Blocks['control_servo'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_CONTROL_SERVO_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_CONTROL_SERVO_HELPURL
       }
     );
   }
@@ -400,16 +401,16 @@ Blockly.Blocks['control_gripper'] = {
     this.jsonInit(
       {
         "type": "control_gripper",
-        "message0": "%1 tay gắp tốc độ %2 (0-100)",
+        "message0": Blockly.Msg.ROBOCON_CONTROL_GRIPPER_MESSAGE0,
         "args0": [
           {
             type: "field_dropdown",
             name: "action",
             options: [
-              ["nâng", "lift_up"],
-              ["hạ", "lift_down"],
-              ["đóng", "collect"],
-              ["mở", "release"],
+              [Blockly.Msg.ROBOCON_CONTROL_GRIPPER_LIFT, "lift_up"],
+              [Blockly.Msg.ROBOCON_CONTROL_GRIPPER_DROP, "lift_down"],
+              [Blockly.Msg.ROBOCON_CONTROL_GRIPPER_GRAB, "collect"],
+              [Blockly.Msg.ROBOCON_CONTROL_GRIPPER_OPEN, "release"],
             ]
           },
           {
@@ -422,8 +423,8 @@ Blockly.Blocks['control_gripper'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_CONTROL_GRIPPER_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_CONTROL_GRIPPER_HELPURL
       }
     );
   }
@@ -456,14 +457,14 @@ Blockly.Blocks['gamepad_init'] = {
     this.jsonInit(
       {
         type: "gamepad_init",
-        message0: "khởi tạo gamepad",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_INIT_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
         ],
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_INIT_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_INIT_HELPURL
       }
     )
   },
@@ -485,7 +486,7 @@ Blockly.Blocks['gamepad_mode'] = {
     this.jsonInit(
       {
         type: "gamepad_mode",
-        message0: "cài đặt chế độ điều khiển %1",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_MODE_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
@@ -494,26 +495,26 @@ Blockly.Blocks['gamepad_mode'] = {
             name: "mode",
             options: [
               [
-                "phím điều hướng dpad",
+                Blockly.Msg.ROBOCON_GAMEPAD_MODE_DPAD,
                 "MODE_DPAD"
               ],
               [
-                "joystick trái",
+                Blockly.Msg.ROBOCON_GAMEPAD_MODE_LEFT_JOYSTICK,
                 "MODE_LEFT_JOYSTICK"
               ],
               [
-                "joystick phải",
+                Blockly.Msg.ROBOCON_GAMEPAD_MODE_RIGHT_JOYSTICK,
                 "MODE_RIGHT_JOYSTICK"
               ],
               [
-                "kết hợp joystick trái và joystick phải",
+                Blockly.Msg.ROBOCON_GAMEPAD_MODE_BOTH_JOYSTICK,
                 "MODE_BOTH_JOYSTICK"
               ],
             ],
           },],
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_MODE_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_MODE_HELPURL
       }
     );
   },
@@ -534,7 +535,7 @@ Blockly.Blocks['gamepad_speed_btn'] = {
     this.jsonInit(
       {
         type: "gamepad_speed_btn",
-        message0: "cài đặt tốc độ: %1 để tăng - %2 để giảm",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_SPEED_BTN_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
@@ -588,8 +589,8 @@ Blockly.Blocks['gamepad_speed_btn'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           },
           {
@@ -642,13 +643,13 @@ Blockly.Blocks['gamepad_speed_btn'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           }],
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_SPEED_BTN_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_SPEED_BTN_HELPURL
       }
     );
   },
@@ -680,7 +681,7 @@ Blockly.Blocks['gamepad_set_servo'] = {
     this.jsonInit(
       {
         type: "gamepad_set_servo",
-        message0: "cài đặt điều khiển servo %1: nút %2 vị trí %3 nút %4 vị trí %5 tốc độ %6",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_SERVO_BTN_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
@@ -742,8 +743,8 @@ Blockly.Blocks['gamepad_set_servo'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           },
           {
@@ -800,8 +801,8 @@ Blockly.Blocks['gamepad_set_servo'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           },
           {
@@ -816,8 +817,8 @@ Blockly.Blocks['gamepad_set_servo'] = {
         previousStatement: null,
         nextStatement: null,
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_SERVO_BTN_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_SERVO_BTN_HELPURL
       }
     );
   },
@@ -853,14 +854,14 @@ Blockly.Blocks['gamepad_processing'] = {
     this.jsonInit(
       {
         type: "gamepad_processing",
-        message0: "cập nhật và xử lý gamepad",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
         ],
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_HELPURL
       }
     )
   },
@@ -879,7 +880,7 @@ Blockly.Blocks['gamepad_set_led_rgb'] = {
   init: function () {
     this.jsonInit({
       "type": "gamepad_set_led_rgb",
-      "message0": "đổi màu đèn trên gamepad thành %1",
+      "message0": Blockly.Msg.ROBOCON_GAMEPAD_SET_LED_MESSAGE0,
       "args0": [
         {
           "type": "input_value",
@@ -890,8 +891,8 @@ Blockly.Blocks['gamepad_set_led_rgb'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": ColorBlock,
-      "tooltip": "",
-      "helpUrl": ""
+      "tooltip": Blockly.Msg.ROBOCON_GAMEPAD_SET_LED_TOOLTIP,
+      "helpUrl": Blockly.Msg.ROBOCON_GAMEPAD_SET_LED_HELPURL
     }
     );
   }
@@ -909,7 +910,7 @@ Blockly.Blocks['gamepad_set_rumble'] = {
     this.jsonInit(
       {
         "type": "gamepad_set_rumble",
-        "message0": "rung gamepad mức %1 (0-100) trong %2 milli giây (0-2000)",
+        "message0": Blockly.Msg.ROBOCON_GAMEPAD_SET_RUMBLE_MESSAGE0,
         "args0": [
           {
             min: 0,
@@ -932,8 +933,8 @@ Blockly.Blocks['gamepad_set_rumble'] = {
         "previousStatement": null,
         "nextStatement": null,
         "colour": ColorBlock,
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_GAMEPAD_SET_RUMBLE_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_GAMEPAD_SET_RUMBLE_HELPURL
       }
     );
   }
@@ -952,7 +953,7 @@ Blockly.Blocks['gamepad_turbo_btn'] = {
     this.jsonInit(
       {
         type: "gamepad_turbo_btn",
-        message0: "cài đặt nút tăng tốc: %1",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_TURBO_BTN_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
@@ -1006,13 +1007,13 @@ Blockly.Blocks['gamepad_turbo_btn'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           }],
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_TURBO_BTN_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_TURBO_BTN_HELPURL
       }
     );
   },
@@ -1039,7 +1040,7 @@ Blockly.Blocks['gamepad_line_btn'] = {
     this.jsonInit(
       {
         type: "gamepad_line_btn",
-        message0: "cho robot đi dò line tốc độ %2 khi nhấn nút %1",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_LINE_BTN_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
@@ -1093,8 +1094,8 @@ Blockly.Blocks['gamepad_line_btn'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           },
           {
@@ -1105,8 +1106,8 @@ Blockly.Blocks['gamepad_line_btn'] = {
         previousStatement: null,
         nextStatement: null,
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_LINE_BTN_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_LINE_BTN_HELPURL
       }
     );
   },
@@ -1134,7 +1135,7 @@ Blockly.Blocks['gamepad_set_gripper'] = {
     this.jsonInit(
       {
         type: "gamepad_set_gripper",
-        message0: "cài đặt tay gắp %1 : %2 để mở %3 để đóng",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_GRIPPER_BTN_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
@@ -1196,8 +1197,8 @@ Blockly.Blocks['gamepad_set_gripper'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           },
           {
@@ -1250,16 +1251,16 @@ Blockly.Blocks['gamepad_set_gripper'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           }],
         inputsInline: true,
         previousStatement: null,
         nextStatement: null,
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_GRIPPER_BTN_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_GRIPPER_BTN_HELPURL
       }
     );
   },
@@ -1292,7 +1293,7 @@ Blockly.Blocks['gamepad_set_ball_launcher'] = {
     this.jsonInit(
       {
         type: "gamepad_set_ball_launcher",
-        message0: "cài đặt kit bắn bóng ở servo %1 và %2 : %3 để nạp đạn %4 để bắn",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_BALL_BTN_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
@@ -1362,8 +1363,8 @@ Blockly.Blocks['gamepad_set_ball_launcher'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           },
           {
@@ -1416,16 +1417,16 @@ Blockly.Blocks['gamepad_set_ball_launcher'] = {
               ["L2", "l2"],
               ["options", "m2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           }],
         inputsInline: true,
         previousStatement: null,
         nextStatement: null,
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_BALL_BTN_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_BALL_BTN_HELPURL
       }
     );
   },
@@ -1459,7 +1460,7 @@ Blockly.Blocks['gamepad_change_mode_btn'] = {
     this.jsonInit(
       {
         type: "gamepad_change_mode_btn",
-        message0: "cài đặt nút đổi chế độ điều khiển: %1",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_CHANGE_MODE_BTN_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
@@ -1513,13 +1514,13 @@ Blockly.Blocks['gamepad_change_mode_btn'] = {
               ["R2", "r2"],
               ["L2", "l2"],
               ["share", "m1"],
-              ["nút joystick trái", "thumbl"],
-              ["nút joystick phải", "thumbr"],
+              ["left joystick", "thumbl"],
+              ["right joystick", "thumbr"],
             ],
           }],
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_CHANGE_MODE_BTN_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_CHANGE_MODE_BTN_HELPURL
       }
     );
   },
@@ -1546,13 +1547,13 @@ Blockly.Blocks['gamepad_is_connected'] = {
     this.jsonInit(
       {
         "type": "gamepad_is_connected",
-        "message0": "đang kết nối gamepad",
+        "message0": Blockly.Msg.ROBOCON_GAMEPAD_IS_CONNECTED_MESSAGE0,
         "args0": [
         ],
         "colour": ColorBlock,
         "output": "Boolean",
-        "tooltip": "",
-        "helpUrl": ""
+        "tooltip": Blockly.Msg.ROBOCON_GAMEPAD_IS_CONNECTED_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_GAMEPAD_IS_CONNECTED_HELPURL
       }
     );
   }
@@ -1571,14 +1572,14 @@ Blockly.Blocks['remote_control_init'] = {
     this.jsonInit(
       {
         type: "remote_control_init",
-        message0: "bật chế độ điều khiển bằng gamepad",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_START_REMOTE_CONTROL_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
         ],
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_START_REMOTE_CONTROL_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_START_REMOTE_CONTROL_HELPURL
       }
     )
   },
@@ -1599,14 +1600,14 @@ Blockly.Blocks['remote_control_processing'] = {
     this.jsonInit(
       {
         type: "remote_control_processing",
-        message0: "xử lý lệnh từ gamepad",
+        message0: Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_REMOTE_CONTROL_MESSAGE0,
         previousStatement: null,
         nextStatement: null,
         args0: [
         ],
         colour: ColorBlock,
-        tooltip: "",
-        helpUrl: ""
+        tooltip: Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_REMOTE_CONTROL_TOOLTIP,
+        helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_REMOTE_CONTROL_HELPURL
       }
     )
   },
@@ -1626,8 +1627,8 @@ Blockly.Blocks["remote_control_on_button_pressed"] = {
   init: function () {
     this.jsonInit({
       colour: ColorBlock,
-      message0: 'nếu nút %1 được nhấn %2 %3 ',
-      tooltip: 'Thực hiện một tập lệnh khi nút được nhấn.',
+      message0: Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_MESSAGE0,
+      tooltip: Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_TOOLTIP,
       args0: [
         {
           type: "field_dropdown",
@@ -1647,7 +1648,7 @@ Blockly.Blocks["remote_control_on_button_pressed"] = {
           name: "ACTION",
         },
       ],
-      helpUrl: "",
+      helpUrl: Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_HELPURL,
     });
   },
   getDeveloperVars: function () {
