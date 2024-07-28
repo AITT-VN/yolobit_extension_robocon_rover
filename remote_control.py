@@ -9,6 +9,7 @@ import gamepad
 
 GAMEPAD_RECEIVER_ADDR = const(0x55)
 
+# gamepad buttons
 BTN_FORWARD = '!B516'
 BTN_BACKWARD = '!B615'
 BTN_LEFT = '!B714'
@@ -18,6 +19,32 @@ BTN_A = '!B11:'
 BTN_B = '!B219'
 BTN_C = '!B318'
 BTN_D = '!B417'
+
+BTN_SQUARE = 'SQ'
+BTN_TRIANGLE = 'TR'
+BTN_CROSS = 'CR'
+BTN_CIRCLE = 'CI'
+
+BTN_L1 = 'L1'
+BTN_R1 = 'R1'
+BTN_L2 = 'L2'
+BTN_R2 = 'R2'
+
+BTN_M1 = 'M1'
+BTN_M2 = 'M2'
+BTN_THUMBL = 'THUMBL'
+BTN_THUMBR = 'THUMBR'
+
+AL = 'AL'
+ALX = 'ALX'
+ALY = 'ALY'
+AL_DIR = 'AL_DIR'
+AL_DISTANCE = 'AL_DISTANCE'
+AR = 'AR'
+ARX = 'ARX'
+ARY = 'ARY'
+AR_DIR = 'AR_DIR'
+AR_DISTANCE = 'AR_DISTANCE'
 
 BTN_RELEASED = '!507'
 
@@ -30,13 +57,33 @@ class RemoteControlMode():
         self._last_cmd = None
         
         self._cmd_handlers = {
+            BTN_FORWARD: None,
+            BTN_BACKWARD: None,
+            BTN_LEFT: None,
+            BTN_RIGHT: None,
+
             BTN_A: None,
             BTN_B: None,
             BTN_C: None,
             BTN_D: None,
+
+            BTN_SQUARE: None,
+            BTN_TRIANGLE: None,
+            BTN_CROSS: None,
+            BTN_CIRCLE: None,
+
+            BTN_L1: None,
+            BTN_R1: None,
+            BTN_L2: None,
+            BTN_R2: None,
+
+            BTN_M1: None,
+            BTN_M2: None,
+            BTN_THUMBL: None,
+            BTN_THUMBR: None,
         }
         
-        self._i2c_gp = SoftI2C(scl=Pin(22), sda=Pin(21), freq=100000)
+        self._i2c_gp = SoftI2C(scl=Pin(pin19.pin), sda=Pin(pin20.pin), freq=100000)
         if self._i2c_gp.scan().count(GAMEPAD_RECEIVER_ADDR) == 0:
             self._gamepad_v2 = None
             print('Gamepad V2 Receiver not found {:#x}'.format(GAMEPAD_RECEIVER_ADDR))
@@ -46,7 +93,7 @@ class RemoteControlMode():
         ble.on_receive_msg('string', self.on_ble_cmd_received)
 
     def on_ble_cmd_received(self, cmd):
-        print('New command: ', cmd)
+        #print('New command: ', cmd)
         self._cmd = cmd
     
     def set_command(self, cmd, handler):
@@ -73,13 +120,29 @@ class RemoteControlMode():
                 elif self._gamepad_v2.data['dpad_right']:
                     self._cmd = BTN_RIGHT
                 elif self._gamepad_v2.data['a']:
-                    self._cmd = BTN_C
+                    self._cmd = BTN_CROSS
                 elif self._gamepad_v2.data['b']:
-                    self._cmd = BTN_D
+                    self._cmd = BTN_CIRCLE
                 elif self._gamepad_v2.data['x']:
-                    self._cmd = BTN_A
+                    self._cmd = BTN_SQUARE
                 elif self._gamepad_v2.data['y']:
-                    self._cmd = BTN_B
+                    self._cmd = BTN_TRIANGLE
+                elif self._gamepad_v2.data['l1']:
+                    self._cmd = BTN_L1
+                elif self._gamepad_v2.data['r1']:
+                    self._cmd = BTN_R1
+                elif self._gamepad_v2.data['l2']:
+                    self._cmd = BTN_L2
+                elif self._gamepad_v2.data['r2']:
+                    self._cmd = BTN_R2
+                elif self._gamepad_v2.data['m1']:
+                    self._cmd = BTN_M1
+                elif self._gamepad_v2.data['m2']:
+                    self._cmd = BTN_M2
+                elif self._gamepad_v2.data['thumbl']:
+                    self._cmd = BTN_THUMBL
+                elif self._gamepad_v2.data['thumbr']:
+                    self._cmd = BTN_THUMBR
                 else:
                     self._cmd = BTN_RELEASED
 
@@ -91,7 +154,9 @@ class RemoteControlMode():
             else:
                 self._speed = 50
 
-        if self._cmd == BTN_FORWARD:
+        if self._cmd_handlers.get(self._cmd) != None:
+            self._cmd_handlers[self._cmd]()
+        elif self._cmd == BTN_FORWARD:
             rover.forward(self._speed*2)
 
         elif self._cmd == BTN_BACKWARD:
@@ -103,14 +168,16 @@ class RemoteControlMode():
         elif self._cmd == BTN_RIGHT:
             rover.turn_right(self._speed)
         
-        elif self._cmd in self._cmd_handlers:
-            if self._cmd_handlers[self._cmd] != None:
-                self._cmd_handlers[self._cmd]()
-        
         else:
             rover.stop()
-        
+
         self._last_cmd = self._cmd
+    
+    def read_gamepad(self, data):
+        if self._gamepad_v2 != None and self._gamepad_v2._isconnected == True:
+            return self._gamepad_v2.data[data]
+        else:
+            return 0
 
 rc_mode = RemoteControlMode()
 

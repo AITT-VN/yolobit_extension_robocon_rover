@@ -1,4 +1,5 @@
 import time
+from machine import *
 from rover import *
 
 STOP = const(0)
@@ -28,6 +29,10 @@ i_lr = 0 #0 for left, 1 for right
 t_finding_point = time.time_ns()
 s1_current_position = -1
 s2_current_position = -1
+
+robocon_servos = {}
+robocon_servos_pos = {}
+robocon_servos_limits = {}
 
 def follow_line(speed, now=None, backward=True):
     global m_dir, i_lr, t_finding_point
@@ -215,48 +220,71 @@ def ball_launcher(index_1=0, index_2=1, mode=-1):
         rover.servo_write(servo_2, 0)
         time.sleep_ms(250)
 
+def servo_write(servo_pin, value):
+    if value < 0:
+        value = 0
+    elif value > 180:
+        value = 180
 
-def set_servo_position(pin, next_position, speed=70):
-    global s1_current_position, s2_current_position
-    current_position = 0
-        
-    if speed < 0 or speed > 100:
-        print('Invalid servo speed')
+    if servo_pin not in robocon_servos:
+        robocon_servos[servo_pin] = PWM(Pin(servo_pin), freq=50, duty=0)
+        if servo_pin not in robocon_servos_limits:
+            robocon_servos_limits[servo_pin] = (0, 180)
+
+    if value < robocon_servos_limits[servo_pin][0]:
+        value = robocon_servos_limits[servo_pin][0]
+    
+    if value > robocon_servos_limits[servo_pin][1]:
+        value = robocon_servos_limits[servo_pin][1]
+
+    # duty for servo is between 25 - 115
+    duty = 25 + int((value/180)*100)
+    robocon_servos[servo_pin].duty(duty)
+    robocon_servos_pos[servo_pin] = value
+
+def servo360_write(servo_pin, speed):
+    if speed < -100:
+        speed = -100
+    elif speed > 100:
+        speed = 100
+
+    if speed == 0:
+        servo_write(servo_pin, 0)
         return
-    
-    sleep = translate(speed, 0, 100, 100, 0)
-    
-    if next_position < 0:
-        next_position = 0
-
-    if next_position > 180:
-        next_position = 180
-    
-    if pin == 1:
-        if s1_current_position == -1:
-            rover.servo_write(pin, next_position)
-            s1_current_position = next_position
-            return
-        else:    
-            current_position = s1_current_position
     else:
-        if s2_current_position == -1:
-            rover.servo_write(pin, next_position)
-            s2_current_position = next_position
-            return
-        else:
-            current_position = s2_current_position
+        degree = 90 - (speed/100)*90
+        servo_write(servo_pin, degree)
+
+def set_servo_position(pin, next_position, speed=70):        
+    if speed < 0:
+        speed = 0
+    elif speed > 100:
+        speed = 100
     
+    sleep = int(translate(speed, 0, 100, 100, 0))
+
+    if pin in robocon_servos_pos:
+        current_position = robocon_servos_pos[pin]
+    else:
+        current_position = 0
+
     if next_position < current_position:
         for i in range(current_position, next_position, -1):
-            rover.servo_write(pin, i)
-            time.sleep_ms(int(sleep))
+            servo_write(pin, i)
+            time.sleep_ms(sleep)
     else:
         for i in range(current_position, next_position):
-            rover.servo_write(pin, i)
-            time.sleep_ms(int(sleep))
+            servo_write(pin, i)
+            time.sleep_ms(sleep)
 
-    if pin == 1:
-        s1_current_position = next_position
+def move_servo_position(pin, angle):
+    if pin in robocon_servos_pos:
+        current_position = robocon_servos_pos[pin]
     else:
-        s2_current_position = next_position
+        current_position = 0
+    next_position = current_position + angle    
+    servo_write(pin, next_position)
+
+def set_servo_limit(pin, min, max):
+    robocon_servos_limits[pin] = (min, max)
+

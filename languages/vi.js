@@ -34,6 +34,10 @@ Blockly.Msg.ROBOCON_CONTROL_SERVO_TOOLTIP = ""
 Blockly.Msg.ROBOCON_CONTROL_SERVO_MESSAGE0 = "servo %1 quay %2 độ tốc độ %3 (0-100)"
 Blockly.Msg.ROBOCON_CONTROL_SERVO_HELPURL = ""
 
+Blockly.Msg.ROBOCON_LIMIT_SERVO_TOOLTIP = ""
+Blockly.Msg.ROBOCON_LIMIT_SERVO_MESSAGE0 = "servo %1 giới hạn góc từ %2 đến %3"
+Blockly.Msg.ROBOCON_LIMIT_SERVO_HELPURL = ""
+
 Blockly.Msg.ROBOCON_CONTROL_GRIPPER_TOOLTIP = ""
 Blockly.Msg.ROBOCON_CONTROL_GRIPPER_MESSAGE0 = "%1 tay gắp tốc độ %2 (0-100)"
 Blockly.Msg.ROBOCON_CONTROL_GRIPPER_HELPURL = ""
@@ -41,6 +45,10 @@ Blockly.Msg.ROBOCON_CONTROL_GRIPPER_LIFT = "nâng"
 Blockly.Msg.ROBOCON_CONTROL_GRIPPER_DROP = "hạ"
 Blockly.Msg.ROBOCON_CONTROL_GRIPPER_OPEN = "mở"
 Blockly.Msg.ROBOCON_CONTROL_GRIPPER_GRAB = "đóng"
+
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_SLOW_TOOLTIP = ""
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_SLOW_MESSAGE0 = "%1 tay gắp %2 độ"
+Blockly.Msg.ROBOCON_CONTROL_GRIPPER_SLOW_HELPURL = ""
 
 Blockly.Msg.ROBOCON_GAMEPAD_INIT_TOOLTIP = ""
 Blockly.Msg.ROBOCON_GAMEPAD_INIT_MESSAGE0 = "khởi tạo gamepad"
@@ -107,5 +115,15 @@ Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_REMOTE_CONTROL_MESSAGE0 = "xử lý lệnh t
 Blockly.Msg.ROBOCON_GAMEPAD_PROCESS_REMOTE_CONTROL_HELPURL = ""
 
 Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_TOOLTIP = "Thực hiện một tập lệnh khi nút được nhấn"
-Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_MESSAGE0 = "nếu nút %1 được nhấn %2 %3 "
+Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_MESSAGE0 = "nếu nút %1 trên gamepad được nhấn %2 %3 "
 Blockly.Msg.ROBOCON_GAMEPAD_ON_BTN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_READ_BTN_TOOLTIP = "Kiểm tra xem nút trên gamepad có đang được nhấn hay không"
+Blockly.Msg.ROBOCON_GAMEPAD_READ_BTN_MESSAGE0 = "nút %1 trên gamepad được nhấn"
+Blockly.Msg.ROBOCON_GAMEPAD_READ_BTN_HELPURL = ""
+
+Blockly.Msg.ROBOCON_GAMEPAD_READ_JOYSTICK_TOOLTIP = "Kiểm tra trạng thái 2 joystick trên gamepad"
+Blockly.Msg.ROBOCON_GAMEPAD_READ_JOYSTICK_MESSAGE0 = "đọc joystick %1 %2"
+Blockly.Msg.ROBOCON_GAMEPAD_READ_JOYSTICK_LEFT = "trái"
+Blockly.Msg.ROBOCON_GAMEPAD_READ_JOYSTICK_RIGHT = "phải"
+Blockly.Msg.ROBOCON_GAMEPAD_READ_JOYSTICK_HELPURL = ""

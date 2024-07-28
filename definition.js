@@ -19,8 +19,8 @@ Blockly.Blocks['robocon_follow_line_until_cross'] = {
             type: "field_dropdown",
             name: "stop",
             options: [
-              [Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE, "BRAKE"],
               [Blockly.Msg.ROBOCON_THEN_ACTION_STOP, "STOP"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE, "BRAKE"],
               [Blockly.Msg.ROBOCON_THEN_ACTION_NONE, "None"],
             ]
           },
@@ -63,8 +63,8 @@ Blockly.Blocks['robocon_follow_line_until_end'] = {
             type: "field_dropdown",
             name: "stop",
             options: [
-              [Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE, "BRAKE"],
               [Blockly.Msg.ROBOCON_THEN_ACTION_STOP, "STOP"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE, "BRAKE"],
               [Blockly.Msg.ROBOCON_THEN_ACTION_NONE, "None"],
             ]
           },
@@ -130,8 +130,8 @@ Blockly.Blocks['robocon_turn_until_line_detected_then'] = {
             type: "field_dropdown",
             name: "stop",
             options: [
-              [Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE, "BRAKE"],
               [Blockly.Msg.ROBOCON_THEN_ACTION_STOP, "STOP"],
+              [Blockly.Msg.ROBOCON_THEN_ACTION_BRAKE, "BRAKE"],
               [Blockly.Msg.ROBOCON_THEN_ACTION_NONE, "None"],
             ]
           },
@@ -358,8 +358,10 @@ Blockly.Blocks['control_servo'] = {
             type: "field_dropdown",
             name: "pin",
             options: [
-              ["S1", "1"],
-              ["S2", "2"],
+              ["S1", "pin16.pin"],
+              ["S2", "pin3.pin"],
+              ["P0", "pin0.pin"],
+              ["P1", "pin1.pin"],
             ]
           },
           {
@@ -395,6 +397,55 @@ Blockly.Python["control_servo"] = function (block) {
   return code;
 };
 
+Blockly.Blocks['limit_servo'] = {
+  init: function () {
+    this.jsonInit(
+      {
+        "type": "limit_servo",
+        "message0": Blockly.Msg.ROBOCON_LIMIT_SERVO_MESSAGE0,
+        "args0": [
+          {
+            type: "field_dropdown",
+            name: "pin",
+            options: [
+              ["S1", "pin16.pin"],
+              ["S2", "pin3.pin"],
+              ["P0", "pin0.pin"],
+              ["P1", "pin1.pin"],
+            ]
+          },
+          {
+            "type": "input_value",
+            "name": "min",
+            "check": "Number",
+          },
+          {
+            "type": "input_value",
+            "name": "max",
+            "check": "Number",
+          }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": ColorBlock,
+        "tooltip": Blockly.Msg.ROBOCON_LIMIT_SERVO_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_LIMIT_SERVO_HELPURL
+      }
+    );
+  }
+};
+
+Blockly.Python["limit_servo"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
+  var dropdown_pin = block.getFieldValue('pin');
+  var min = Blockly.Python.valueToCode(block, 'min', Blockly.Python.ORDER_ATOMIC);
+  var max = Blockly.Python.valueToCode(block, 'max', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = "set_servo_limit(" + dropdown_pin + ", " + min + ", " + max + ")\n";
+  return code;
+};
 
 Blockly.Blocks['control_gripper'] = {
   init: function () {
@@ -438,13 +489,66 @@ Blockly.Python["control_gripper"] = function (block) {
   // TODO: Assemble Python into code variable.
   var code = "";
   if (dropdown_type == 'collect')
-    code = "set_servo_position(1, 90, " + rotate_speed + ")\n";
+    code = "set_servo_position(pin16.pin, 90, " + rotate_speed + ")\n";
   else if (dropdown_type == 'release')
-    code = "set_servo_position(1, 0, " + rotate_speed + ")\n";
+    code = "set_servo_position(pin16.pin, 0, " + rotate_speed + ")\n";
   else if (dropdown_type == 'lift_up')
-    code = "set_servo_position(2, 90, " + rotate_speed + ")\n";
+    code = "set_servo_position(pin3.pin, 90, " + rotate_speed + ")\n";
   else
-    code = "set_servo_position(2, 0, " + rotate_speed + ")\n";
+    code = "set_servo_position(pin3.pin, 0, " + rotate_speed + ")\n";
+  // TODO: Change ORDER_NONE to the correct strength.
+  return code;
+};
+
+Blockly.Blocks['control_gripper_slow'] = {
+  init: function () {
+    this.jsonInit(
+      {
+        "type": "control_gripper_slow",
+        "message0": Blockly.Msg.ROBOCON_CONTROL_GRIPPER_SLOW_MESSAGE0,
+        "args0": [
+          {
+            type: "field_dropdown",
+            name: "action",
+            options: [
+              [Blockly.Msg.ROBOCON_CONTROL_GRIPPER_LIFT, "lift_up"],
+              [Blockly.Msg.ROBOCON_CONTROL_GRIPPER_DROP, "lift_down"],
+              [Blockly.Msg.ROBOCON_CONTROL_GRIPPER_GRAB, "collect"],
+              [Blockly.Msg.ROBOCON_CONTROL_GRIPPER_OPEN, "release"],
+            ]
+          },
+          {
+            "type": "input_value",
+            "name": "angle",
+            "check": "Number",
+          }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": ColorBlock,
+        "tooltip": Blockly.Msg.ROBOCON_CONTROL_GRIPPER_TOOLTIP,
+        "helpUrl": Blockly.Msg.ROBOCON_CONTROL_GRIPPER_HELPURL
+      }
+    );
+  }
+};
+
+Blockly.Python["control_gripper_slow"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
+  var dropdown_type = block.getFieldValue('action');
+  var angle = Blockly.Python.valueToCode(block, 'angle', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = "";
+  if (dropdown_type == 'collect')
+    code = "move_servo_position(pin16.pin, -" + angle + ")\n";
+  else if (dropdown_type == 'release')
+    code = "move_servo_position(pin16.pin, " + angle + ")\n";
+  else if (dropdown_type == 'lift_up')
+    code = "move_servo_position(pin3.pin, " + angle + ")\n";
+  else
+    code = "move_servo_position(pin3.pin, -" + angle + ")\n";
   // TODO: Change ORDER_NONE to the correct strength.
   return code;
 };
@@ -1634,10 +1738,90 @@ Blockly.Blocks["remote_control_on_button_pressed"] = {
           type: "field_dropdown",
           name: "BUTTON",
           options: [
-            ['A', 'A'],
-            ['B', 'B'],
-            ['C', 'C'],
-            ['D', 'D']
+            ['A', 'BTN_A'],
+            ['B', 'BTN_B'],
+            ['C', 'BTN_C'],
+            ['D', 'BTN_D'],
+            [
+              {
+                "src": 'static/blocks/block_images/gamepad-square.png',
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_SQUARE"
+            ],
+            [
+              {
+                "src": 'static/blocks/block_images/gamepad-circle.png',
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_CIRCLE"
+            ],
+            [
+              {
+                "src": 'static/blocks/block_images/gamepad-cross.png',
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_CROSS"
+            ],
+            [
+              {
+                "src": 'static/blocks/block_images/gamepad-triangle.png',
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_TRIANGLE"
+            ],
+            ["L1", "BTN_L1"],
+            ["R1", "BTN_R1"],
+            ["L2", "BTN_L2"],
+            ["R2", "BTN_R2"],
+            ["SHARE", "BTN_M1"],
+            ["OPTIONS", "BTN_M2"],
+            ["Left Joystick", "BTN_THUMBL"],
+            ["Right Joystick", "BTN_THUMBR"],
+            [
+              {
+                "src": "static/blocks/block_images/59043.svg",
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_FORWARD"
+            ],
+            [
+              {
+                "src": "static/blocks/block_images/959159.svg",
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_BACKWARD"
+            ],
+            [
+              {
+                "src": "static/blocks/block_images/arrow-left.svg",
+                "width": 15,
+                "height": 15,
+                "alt": "side left"
+              },
+              "BTN_LEFT"
+            ],
+            [
+              {
+                "src": "static/blocks/block_images/arrow-right.svg",
+                "width": 15,
+                "height": 15,
+                "alt": "side right"
+              },
+              "BTN_RIGHT"
+            ],
           ],
         },
         {
@@ -1674,8 +1858,168 @@ Blockly.Python['remote_control_on_button_pressed'] = function (block) {
       statements_action || Blockly.Python.PASS
       ]);
 
-  var code = 'rc_mode.set_command(BTN_' + button + ', ' + cbFunctionName + ')\n';
+  var code = 'rc_mode.set_command(' + button + ', ' + cbFunctionName + ')\n';
   Blockly.Python.definitions_['on_gamepad_button_callback' + button] = code;
 
   return '';
+};
+
+Blockly.Blocks["remote_control_read_button"] = {
+  init: function () {
+    this.jsonInit({
+      colour: ColorBlock,
+      tooltip: Blockly.Msg.ROBOCON_GAMEPAD_READ_BTN_TOOLTIP,
+      message0: Blockly.Msg.ROBOCON_GAMEPAD_READ_BTN_MESSAGE0,
+      args0: [
+        {
+          type: "field_dropdown",
+          name: "BUTTON",
+          options: [
+            [
+              {
+                "src": 'static/blocks/block_images/gamepad-square.png',
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_SQUARE"
+            ],
+            [
+              {
+                "src": 'static/blocks/block_images/gamepad-circle.png',
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_CIRCLE"
+            ],
+            [
+              {
+                "src": 'static/blocks/block_images/gamepad-cross.png',
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_CROSS"
+            ],
+            [
+              {
+                "src": 'static/blocks/block_images/gamepad-triangle.png',
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_TRIANGLE"
+            ],
+            ["L1", "BTN_L1"],
+            ["R1", "BTN_R1"],
+            ["L2", "BTN_L2"],
+            ["R2", "BTN_R2"],
+            ["A", "BTN_A"],
+            ["B", "BTN_B"],
+            ["C", "BTN_C"],
+            ["D", "BTN_D"],
+            [
+              {
+                "src": "static/blocks/block_images/59043.svg",
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_UP"
+            ],
+            [
+              {
+                "src": "static/blocks/block_images/959159.svg",
+                "width": 15,
+                "height": 15,
+                "alt": "*"
+              },
+              "BTN_DOWN"
+            ],
+            [
+              {
+                "src": "static/blocks/block_images/arrow-left.svg",
+                "width": 15,
+                "height": 15,
+                "alt": "side left"
+              },
+              "BTN_LEFT"
+            ],
+            [
+              {
+                "src": "static/blocks/block_images/arrow-right.svg",
+                "width": 15,
+                "height": 15,
+                "alt": "side right"
+              },
+              "BTN_RIGHT"
+            ],
+          ],
+        }
+      ],
+      output: "Boolean",
+      helpUrl: "",
+    });
+  },
+  getDeveloperVars: function () {
+    return ['rc_mode'];
+  }
+};
+
+Blockly.Python["remote_control_read_button"] = function (block) {
+  var button = block.getFieldValue("BUTTON");
+  // TODO: Assemble Python into code variable.
+  var code = 'rc_mode.read_gamepad("' + button + '") == 1';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Blocks["remote_control_read_joystick"] = {
+  init: function () {
+    this.jsonInit({
+      colour: ColorBlock,
+      tooltip: "",
+      message0: Blockly.Msg.ROBOCON_GAMEPAD_READ_JOYSTICK_MESSAGE0,
+      args0: [
+        {
+          "type": "field_dropdown",
+          "name": "joystick",
+          "options": [
+            [
+              Blockly.Msg.ROBOCON_GAMEPAD_READ_JOYSTICK_LEFT,
+              "al"
+            ],
+            [
+              Blockly.Msg.ROBOCON_GAMEPAD_READ_JOYSTICK_RIGHT,
+              "ar"
+            ]
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "data",
+          "options": [
+            [
+              "X",
+              "x"
+            ],
+            [
+              "Y",
+              "y"
+            ]
+          ]
+        }
+      ],
+      output: "Number",
+      helpUrl: "",
+    });
+  },
+};
+
+Blockly.Python["remote_control_read_joystick"] = function (block) {
+  var joystick = block.getFieldValue("joystick");
+  var data = block.getFieldValue("data");
+  // TODO: Assemble Python into code variable.
+  var code = 'rc_mode.read_gamepad("' + joystick + data + '")';
+  return [code, Blockly.Python.ORDER_NONE];
 };
