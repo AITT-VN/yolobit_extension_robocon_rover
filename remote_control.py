@@ -147,10 +147,10 @@ class RemoteControlMode():
                     self._cmd = BTN_RELEASED
 
         if self._cmd != self._last_cmd: # got new command
-            self._speed = 20 # reset speed
+            self._speed = 25 # reset speed
         else:
             if self._speed < 50:
-                self._speed = self._speed + 1
+                self._speed = int(self._speed + 0.5)
             else:
                 self._speed = 50
 

@@ -156,9 +156,9 @@ Blockly.Python["robocon_turn_until_line_detected_then"] = function (block) {
   // TODO: Assemble Python into code variable.
   var code = "";
   if (dir == "left") {
-    code = "turn_until_line_detected(" + -speed + ", " + speed + ", 5000, " + stop + ")\n";
+    code = "turn_until_line_detected(-" + speed + ", " + speed + ", 5000, " + stop + ")\n";
   } else {
-    code = "turn_until_line_detected(" + speed + ", " + -speed + ", 5000, " + stop + ")\n";
+    code = "turn_until_line_detected(" + speed + ", -" + speed + ", 5000, " + stop + ")\n";
   }
   return code;
 };
