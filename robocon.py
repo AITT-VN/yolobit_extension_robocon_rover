@@ -267,6 +267,7 @@ def set_servo_position(pin, next_position, speed=70):
         current_position = robocon_servos_pos[pin]
     else:
         current_position = 0
+        servo_write(pin, 0) # first time control
 
     if next_position < current_position:
         for i in range(current_position, next_position, -1):
