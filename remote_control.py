@@ -149,18 +149,24 @@ class RemoteControlMode():
         if self._cmd != self._last_cmd: # got new command
             self._speed = 25 # reset speed
         else:
-            if self._speed < 50:
+            if self._speed < 60:
                 self._speed = int(self._speed + 0.5)
             else:
-                self._speed = 50
+                self._speed = 60
 
         if self._cmd_handlers.get(self._cmd) != None:
             self._cmd_handlers[self._cmd]()
         elif self._cmd == BTN_FORWARD:
-            rover.forward(self._speed*2)
+            s = self._speed*2
+            if s > 100:
+                s = 100
+            rover.forward(s)
 
         elif self._cmd == BTN_BACKWARD:
-            rover.backward(self._speed*2)
+            s = self._speed*2
+            if s > 100:
+                s = 100
+            rover.backward(s)
 
         elif self._cmd == BTN_LEFT:
             rover.turn_left(self._speed)
@@ -206,3 +212,4 @@ while True:
     time.sleep_ms(50)
 
 '''
+

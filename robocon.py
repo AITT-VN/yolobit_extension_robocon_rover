@@ -1,9 +1,20 @@
 import time
 from machine import *
+from micropython import const
 from rover import *
 
 STOP = const(0)
 BRAKE = const(1)
+
+DIR_CENTER = const(0)
+DIR_LEFT = const(1)
+DIR_RIGHT = const(2)
+DIR_STRONG_LEFT = const(3)
+DIR_STRONG_RIGHT = const(4)
+DIR_CROSS_LEFT = const(5)
+DIR_CROSS_RIGHT = const(6)
+DIR_NO_LINE = const(7)
+DIR_CROSS_LINE = const(8)
 
 def stop_rover(then=STOP):
     if then == STOP:
@@ -18,14 +29,10 @@ def stop_rover(then=STOP):
     else:
         return
 
-speed_factors = [ 
-    [1, 1], [0.5, 1], [0, 1], [-0.5, 0.5], 
-    [-2/3, -2/3], [0, 1], [-0.5, 0.5], [-0.7, 0.7] 
-] #0: forward, 1: light turn, 2: normal turn, 3: heavy turn, 4:  backward, 5: strong light turn, 6: strong normal turn, 7: strong heavy turn
-
-
 m_dir = -1 #no found
-i_lr = 0 #0 for left, 1 for right
+last_dir = -1
+dir_count = 0
+
 t_finding_point = time.time_ns()
 s1_current_position = -1
 s2_current_position = -1
@@ -35,71 +42,75 @@ robocon_servos_pos = {}
 robocon_servos_limits = {}
 
 def follow_line(speed, now=None, backward=True):
-    global m_dir, i_lr, t_finding_point
+    global m_dir, last_dir, dir_count, t_finding_point
+    ratio = [1, 1]
     if now == None:
         now = rover.read_line_sensors()
 
     if now == (0, 0, 0, 0): #no line found
         if backward:
+            m_dir = DIR_NO_LINE
             rover.backward(speed)
-    else:
-        if (now[1], now[2]) == (1, 1):
-            if m_dir == 0:
-                rover.set_wheel_speed(speed, speed) #if it is running straight before then robot should speed up now           
-            else:
-                m_dir = 0 #forward
-                rover.set_wheel_speed(speed * 2/3, speed * 2/3) #just turn before, shouldn't set high speed immediately, speed up slowly
+            return
+    elif now == (1, 1, 1, 1): # crossed line found
+        m_dir = DIR_CROSS_LINE
+        ratio = [1, 1]
+    elif (now[1], now[2]) == (1, 1):
+        m_dir = DIR_CENTER
+        dir_count = 0
+        if last_dir == DIR_CENTER:
+            ratio = [1, 1]
         else:
-            if (now[0], now[1]) == (1, 1): 
-                m_dir = 2 #left normal turn
-                i_lr = 0
-            elif (now[2], now[3]) == (1, 1): 
-                m_dir = 2 #right normal turn
-                i_lr = 1
-            elif now == (1, 0, 1, 0): 
-                if m_dir != -1:
-                    m_dir = 1
-                    i_lr = 0
-            elif now == (0, 1, 0, 1): 
-                if m_dir != -1:
-                    m_dir = 1
-                    i_lr = 1
-            elif now == (1, 0, 0, 1): 
-                if m_dir != -1:
-                    m_dir = 0
-                    i_lr = 0
-            elif now[1] == 1: 
-                m_dir = 1 #left light turn
-                i_lr = 0
-            elif now[2] == 1:
-                m_dir = 1 #right light turn
-                i_lr = 1
-            elif now[0] == 1: 
-                m_dir = 3 #left heavy turn
-                i_lr = 0
-            elif now[3] == 1: 
-                m_dir = 3 #right heavy turn
-                i_lr = 1
+            ratio = [0.75, 0.75]
+    elif now == (0, 1, 0, 0):
+        m_dir = DIR_RIGHT
+        ratio = [0.5, 1]
+    elif now == (0, 0, 1, 0):
+        m_dir = DIR_LEFT
+        ratio = [1, 0.5]
+    elif now == (1, 1, 0, 0) or now == (1, 1, 1, 0):
+        m_dir = DIR_STRONG_RIGHT
+        ratio = [0, 1]
+    elif now == (0, 0, 1, 1) or now == (0, 1, 1, 1):
+        m_dir = DIR_STRONG_LEFT
+        ratio = [1, 0]
+    elif now == (1, 0, 0, 0):
+        m_dir = DIR_CROSS_LEFT
+        ratio = [-0.75, 0.75]
+    elif now == (0, 0, 0, 1):
+        m_dir = DIR_CROSS_RIGHT
+        ratio = [0.75, -0.75]
+    else:
+        m_dir = DIR_CENTER
+        ratio = [1, 1]
+        dir_count = 0
 
-            rover.set_wheel_speed( speed * speed_factors[m_dir][i_lr], speed * speed_factors[m_dir][1-i_lr] )
+    if m_dir == last_dir:
+        dir_count += 1
+    else:
+        dir_count = 0
+    
+    last_dir = m_dir
+
+    rover.set_wheel_speed( (speed+dir_count) * ratio[0], (speed+dir_count) * ratio[1] )
 
 
 def follow_line_until_end(speed, timeout=10000, then=STOP):
-    count = 3
+    global m_dir, dir_count
+    m_dir = -1
+    dir_count = 0
     last_time = time.ticks_ms()
 
     while time.ticks_ms() - last_time < timeout:
         now = rover.read_line_sensors()
 
-        if now == (0, 0, 0, 0):
-            count = count - 1
-            if count == 0:
-                break
-
         if speed >= 0:
             follow_line(speed, now, False)
         else:
             rover.backward(abs(speed))
+
+        if m_dir == DIR_NO_LINE and dir_count >= 3:
+            break
 
         time.sleep_ms(10)
 
@@ -107,25 +118,25 @@ def follow_line_until_end(speed, timeout=10000, then=STOP):
 
 def follow_line_until_cross(speed, timeout=10000, then=STOP):
     status = 1
-    count = 0
+    global m_dir, dir_count
+    m_dir = -1
+    dir_count = 0
     last_time = time.ticks_ms()
 
     while time.ticks_ms() - last_time < timeout:
         now = rover.read_line_sensors()
 
-        if status == 1:
-            if now != (1, 1, 1, 1):
-                status = 2
-        elif status == 2:
-            if now == (1, 1, 1, 1):
-                count = count + 1
-                if count == 2:
-                    break
-
         if speed >= 0:
             follow_line(speed, now)
         else:
             rover.backward(abs(speed))
+
+        if status == 1:
+            if m_dir != DIR_CROSS_LINE:
+                status = 2
+        elif status == 2:
+            if m_dir == DIR_CROSS_LINE and dir_count >= 2:
+                break
 
         time.sleep_ms(10)
 
@@ -135,24 +146,27 @@ def follow_line_until_cross(speed, timeout=10000, then=STOP):
 def follow_line_until(speed, condition, timeout=10000, then=STOP):
     status = 1
     count = 0
+    global m_dir, dir_count
+    m_dir = -1
+    dir_count = 0
     last_time = time.ticks_ms()
 
     while time.ticks_ms() - last_time < timeout:
         now = rover.read_line_sensors()
 
+        if speed >= 0:
+            follow_line(speed, now)
+        else:
+            rover.backward(abs(speed))
+
         if status == 1:
-            if now != (1, 1, 1, 1):
+            if m_dir != DIR_CROSS_LINE:
                 status = 2
         elif status == 2:
             if condition():
                 count = count + 1
                 if count == 2:
                     break
-
-        if speed >= 0:
-            follow_line(speed, now)
-        else:
-            rover.backward(abs(speed))
 
         time.sleep_ms(10)
 
