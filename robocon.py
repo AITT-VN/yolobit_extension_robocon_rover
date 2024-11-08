@@ -48,8 +48,8 @@ def follow_line(speed, now=None, backward=True):
         now = rover.read_line_sensors()
 
     if now == (0, 0, 0, 0): #no line found
-        if backward:
-            m_dir = DIR_NO_LINE
+        m_dir = DIR_NO_LINE
+        if backward:            
             rover.backward(speed)
             return
     elif now == (1, 1, 1, 1): # crossed line found
