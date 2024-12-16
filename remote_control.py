@@ -48,6 +48,15 @@ AR_DISTANCE = 'AR_DISTANCE'
 
 BTN_RELEASED = '!507'
 
+MOVE1 = const(0)
+MOVE2 = const(1)
+MOVE3 = const(2)
+MOVE4 = const(3)
+MOVE5 = const(4)
+MOVE6 = const(5)
+MOVE7 = const(6)
+MOVE8 = const(7)
+
 
 class RemoteControlMode():
 
@@ -107,6 +116,7 @@ class RemoteControlMode():
         # read command from gamepad v2 receiver if connected
         if self._gamepad_v2 != None:
             # read status
+            x, y, angle, dir, distance = self._gamepad_v2.read_joystick(0)
             
             self._gamepad_v2.update()
 
@@ -143,6 +153,22 @@ class RemoteControlMode():
                     self._cmd = BTN_THUMBL
                 elif self._gamepad_v2.data['thumbr']:
                     self._cmd = BTN_THUMBR
+                elif dir == 5:
+                    self._cmd = MOVE1
+                elif dir == 4:
+                    self._cmd = MOVE2
+                elif dir == 3:
+                    self._cmd = MOVE3
+                elif dir == 2:
+                    self._cmd = MOVE4
+                elif dir == 1:
+                    self._cmd = MOVE5
+                elif dir == 8:
+                    self._cmd = MOVE6
+                elif dir == 7:
+                    self._cmd = MOVE7
+                elif dir == 6:
+                    self._cmd = MOVE8
                 else:
                     self._cmd = BTN_RELEASED
 
@@ -173,6 +199,30 @@ class RemoteControlMode():
 
         elif self._cmd == BTN_RIGHT:
             rover.turn_right(self._speed)
+
+        elif self._cmd == MOVE1:
+            rover.turn_right(self._speed)
+            
+        elif self._cmd == MOVE5:
+            rover.turn_left(self._speed)
+            
+        elif self._cmd == MOVE3:
+            rover.forward(self._speed)
+            
+        elif self._cmd == MOVE7:
+            rover.backward(self._speed)
+            
+        elif self._cmd == MOVE2:
+            rover.set_wheel_speed(self._speed, self._speed/2)
+            
+        elif self._cmd == MOVE4:
+            rover.set_wheel_speed(self._speed/2, self._speed)
+            
+        elif self._cmd == MOVE6:
+            rover.set_wheel_speed(-(self._speed/2), - self._speed)
+            
+        elif self._cmd == MOVE8:
+            rover.set_wheel_speed(-self._speed, -self._speed/2)
         
         else:
             rover.stop()
@@ -212,4 +262,3 @@ while True:
     time.sleep_ms(50)
 
 '''
-
