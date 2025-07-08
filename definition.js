@@ -1882,7 +1882,7 @@ Blockly.Blocks["remote_control_read_button"] = {
                 "height": 15,
                 "alt": "*"
               },
-              "BTN_SQUARE"
+              "x"
             ],
             [
               {
@@ -1891,7 +1891,7 @@ Blockly.Blocks["remote_control_read_button"] = {
                 "height": 15,
                 "alt": "*"
               },
-              "BTN_CIRCLE"
+              "b"
             ],
             [
               {
@@ -1900,7 +1900,7 @@ Blockly.Blocks["remote_control_read_button"] = {
                 "height": 15,
                 "alt": "*"
               },
-              "BTN_CROSS"
+              "a"
             ],
             [
               {
@@ -1909,12 +1909,12 @@ Blockly.Blocks["remote_control_read_button"] = {
                 "height": 15,
                 "alt": "*"
               },
-              "BTN_TRIANGLE"
+              "y"
             ],
-            ["L1", "BTN_L1"],
-            ["R1", "BTN_R1"],
-            ["L2", "BTN_L2"],
-            ["R2", "BTN_R2"],
+            ["L1", "l1"],
+            ["R1", "r1"],
+            ["L2", "l2"],
+            ["R2", "r2"],
             ["A", "BTN_A"],
             ["B", "BTN_B"],
             ["C", "BTN_C"],
@@ -1926,7 +1926,7 @@ Blockly.Blocks["remote_control_read_button"] = {
                 "height": 15,
                 "alt": "*"
               },
-              "BTN_UP"
+              "dpad_up"
             ],
             [
               {
@@ -1935,7 +1935,7 @@ Blockly.Blocks["remote_control_read_button"] = {
                 "height": 15,
                 "alt": "*"
               },
-              "BTN_DOWN"
+              "dpad_down"
             ],
             [
               {
@@ -1944,7 +1944,7 @@ Blockly.Blocks["remote_control_read_button"] = {
                 "height": 15,
                 "alt": "side left"
               },
-              "BTN_LEFT"
+              "dpad_left"
             ],
             [
               {
@@ -1953,7 +1953,7 @@ Blockly.Blocks["remote_control_read_button"] = {
                 "height": 15,
                 "alt": "side right"
               },
-              "BTN_RIGHT"
+              "dpad_right"
             ],
           ],
         }
@@ -1970,7 +1970,7 @@ Blockly.Blocks["remote_control_read_button"] = {
 Blockly.Python["remote_control_read_button"] = function (block) {
   var button = block.getFieldValue("BUTTON");
   // TODO: Assemble Python into code variable.
-  var code = 'rc_mode.read_gamepad("' + button + '") == 1';
+  var code = "rc_mode.read_gamepad('" + button + "') == 1";
   return [code, Blockly.Python.ORDER_NONE];
 };
 
