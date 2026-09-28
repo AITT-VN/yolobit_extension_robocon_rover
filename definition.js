@@ -2023,3 +2023,116 @@ Blockly.Python["remote_control_read_joystick"] = function (block) {
   var code = 'rc_mode.read_gamepad("' + joystick + data + '")';
   return [code, Blockly.Python.ORDER_NONE];
 };
+// ============================================================================
+//  Cam bien do line 5 mat (5 Channel Line Finder Array, STM32G030 I2C 0x24)
+//  cam vao cong I2C cua Rover. Cac lenh do line tu dung cam bien nay khi tim thay.
+// ============================================================================
+
+Blockly.Blocks['robocon_line_sensor_type'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "robocon_line_sensor_type",
+      "message0": Blockly.Msg.ROBOCON_LINE_SENSOR_TYPE_MESSAGE0,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "type",
+          "options": [
+            [Blockly.Msg.ROBOCON_LINE_SENSOR_AUTO, "LINE_AUTO"],
+            [Blockly.Msg.ROBOCON_LINE_SENSOR_ROVER, "LINE_ROVER"],
+            [Blockly.Msg.ROBOCON_LINE_SENSOR_ARRAY5, "LINE_ARRAY5"]
+          ]
+        }
+      ],
+      "inputsInline": true,
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": ColorBlock,
+      "tooltip": Blockly.Msg.ROBOCON_LINE_SENSOR_TYPE_TOOLTIP,
+      "helpUrl": ""
+    });
+  }
+};
+
+Blockly.Python["robocon_line_sensor_type"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
+  var type = block.getFieldValue('type');
+  return "line_sensor_type(" + type + ")\n";
+};
+
+function roboconLine5Option(name) {
+  return {
+    "type": "field_dropdown",
+    "name": name,
+    "options": [
+      [{ "src": ImgUrl + 'line_finder_none_detect.png', "width": 15, "height": 15, "alt": "none" }, "0"],
+      [{ "src": ImgUrl + 'line_finder_detect.png', "width": 15, "height": 15, "alt": "detect" }, "1"]
+    ]
+  };
+}
+
+Blockly.Blocks['robocon_line5_read_all'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "robocon_line5_read_all",
+      "message0": Blockly.Msg.ROBOCON_LINE5_READ_ALL_MESSAGE0,
+      "args0": [
+        roboconLine5Option("S1"),
+        roboconLine5Option("S2"),
+        roboconLine5Option("S3"),
+        roboconLine5Option("S4"),
+        roboconLine5Option("S5")
+      ],
+      "output": "Boolean",
+      "colour": ColorBlock,
+      "tooltip": Blockly.Msg.ROBOCON_LINE5_READ_ALL_TOOLTIP,
+      "helpUrl": ""
+    });
+  }
+};
+
+Blockly.Python["robocon_line5_read_all"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
+  var s = ["S1", "S2", "S3", "S4", "S5"].map(function (n) { return block.getFieldValue(n); });
+  var code = "read_line_array5() == (" + s.join(", ") + ")";
+  return [code, Blockly.Python.ORDER_RELATIONAL];
+};
+
+Blockly.Blocks['robocon_line5_read'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "robocon_line5_read",
+      "message0": Blockly.Msg.ROBOCON_LINE5_READ_MESSAGE0,
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "mode",
+          "options": [
+            [Blockly.Msg.ROBOCON_LINE5_MODE_DIGITAL, "digital"],
+            [Blockly.Msg.ROBOCON_LINE5_MODE_ANALOG, "analog"]
+          ]
+        },
+        {
+          "type": "field_dropdown",
+          "name": "index",
+          "options": [["S1", "1"], ["S2", "2"], ["S3", "3"], ["S4", "4"], ["S5", "5"]]
+        }
+      ],
+      "output": "Number",
+      "colour": ColorBlock,
+      "tooltip": Blockly.Msg.ROBOCON_LINE5_READ_TOOLTIP,
+      "helpUrl": ""
+    });
+  }
+};
+
+Blockly.Python["robocon_line5_read"] = function (block) {
+  Blockly.Python.definitions_['import_rover'] = 'from rover import *';
+  Blockly.Python.definitions_['import_robocon'] = 'from robocon import *';
+  var mode = block.getFieldValue('mode');
+  var index = block.getFieldValue('index');
+  var fn = (mode === 'analog') ? 'read_line_array5_raw' : 'read_line_array5';
+  return [fn + "(" + index + ")", Blockly.Python.ORDER_FUNCTION_CALL];
+};
