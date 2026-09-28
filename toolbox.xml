@@ -36,6 +36,10 @@
       </value>
     </block>
 
+    <block type="robocon_line_sensor_type"></block>
+    <block type="robocon_line5_read_all"></block>
+    <block type="robocon_line5_read"></block>
+
     <sep gap="30"></sep>
     <label text="Tay gắp và servo" web-class="blockLabelStyle"></label>
 
